@@ -6,6 +6,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+# Allow running uvicorn directly from inside the app/ directory as well
+import sys
+if not __package__:
+    _parent_dir = str(Path(__file__).resolve().parent.parent)
+    if _parent_dir not in sys.path:
+        sys.path.insert(0, _parent_dir)
+    __package__ = "app"
+
 from .config import settings
 from .database import Base, engine
 from .routers import admin, announcements, auth, clubs, gallery, memberships

@@ -5,10 +5,13 @@ const CLUBS = [
   { k: 'culture', n: 'Culture', p: 'CULT', d: 'Music, dance, drama and celebrations of Indian heritage.', a: ['Annual cultural fest', 'Dance and music nights', 'Drama workshops', 'Heritage days'], h: 'Culture Club Head', pos: ['100% 10%', '90% 30%', '96% 4%', '84% 22%'] },
   { k: 'multimedia', n: 'Multi Media', p: 'MM', d: 'Photography, film-making, design and event coverage.', a: ['Photo walks', 'Short-film contests', 'Design workshops', 'Live event coverage'], h: 'Multi Media Head', pos: ['100% 95%', '90% 85%', '100% 70%', '82% 100%'] }];
 const $ = s => document.querySelector(s), esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const API_BASE = window.API_BASE ?? (typeof location !== 'undefined' && location.port === '8000' ? '' : 'http://127.0.0.1:8000');
+const assetUrl = u => (!u || u.startsWith('http://') || u.startsWith('https://')) ? u : API_BASE + u;
 let csrf = ''; try { csrf = sessionStorage.getItem('csrf') || '' } catch (e) { }
 async function api(p, o = {}) {
   const h = {}; if (o.body) h['Content-Type'] = 'application/json'; if (o.m && o.m !== 'GET' && csrf) h['X-CSRF-Token'] = csrf;
-  const r = await fetch(p, { method: o.m || 'GET', headers: h, credentials: 'same-origin', body: o.form || (o.body ? JSON.stringify(o.body) : undefined) });
+  const url = p.startsWith('http') ? p : API_BASE + p;
+  const r = await fetch(url, { method: o.m || 'GET', headers: h, credentials: 'include', body: o.form || (o.body ? JSON.stringify(o.body) : undefined) });
   const d = await r.json().catch(() => ({}));
   if (!r.ok) { const x = d.detail; throw Object.assign(new Error(Array.isArray(x) ? x.map(v => String(v.msg).replace(/^Value error, /, '')).join(', ') : x || 'Request failed'), { status: r.status }) } return d
 }
@@ -33,7 +36,7 @@ const V = {
     const real = GAL.items, n = Math.max(1, Math.ceil(GAL.total / 8));
     return `<div class="wrap top"><h2>Gallery</h2><p class="sub">Moments from all four clubs. Open any photo for a large preview.</p>
  <div class="filters" role="group" aria-label="Filter by club">${[{ k: 'all', n: 'All' }, ...CLUBS].map(c => `<button class="chip" data-f="${c.k}" aria-pressed="${c.k === f}">${c.n}</button>`).join('')}</div>
- <div class="grid">${real.length ? real.map(u => `<button class="ph tilt" data-u="${u.id}" style="background-image:url('${esc(u.image_url)}');background-size:cover" aria-label="Open ${esc(u.title)}"><span>${esc(u.title)}</span></button>`).join('') : tiles.filter(t => f === 'all' || t.k === f).slice(0, 8).map(t => `<button class="ph tilt" data-t="${tiles.indexOf(t)}" style="background-image:var(${t.im});background-position:${t.p}" aria-label="Open ${t.t}"><span>${t.t}</span></button>`).join('')}</div>
+ <div class="grid">${real.length ? real.map(u => `<button class="ph tilt" data-u="${u.id}" style="background-image:url('${esc(assetUrl(u.image_url))}');background-size:cover" aria-label="Open ${esc(u.title)}"><span>${esc(u.title)}</span></button>`).join('') : tiles.filter(t => f === 'all' || t.k === f).slice(0, 8).map(t => `<button class="ph tilt" data-t="${tiles.indexOf(t)}" style="background-image:var(${t.im});background-position:${t.p}" aria-label="Open ${t.t}"><span>${t.t}</span></button>`).join('')}</div>
  ${real.length ? `<div class="pager"><button class="chip" data-pg="-1" ${pg ? '' : 'disabled'}>Previous</button><span aria-live="polite">Page ${pg + 1} of ${n}</span><button class="chip" data-pg="1" ${pg >= n - 1 ? 'disabled' : ''}>Next</button></div>` : '<p class="sub" style="margin-top:18px">Sample artwork is shown until admins upload real photos.</p>'}</div>`
   },
   announcements: () => `<div class="wrap top"><h2>Announcements</h2><p class="sub">Published by the club admins.</p>${NEWS.map(n => `<div class="box" style="margin-bottom:12px"><b style="color:var(--gold)">${esc(n.club_name || 'All clubs')}</b><h3>${esc(n.title)}</h3><p>${esc(n.message)}</p></div>`).join('') || '<p>Nothing published yet.</p>'}</div>`,
@@ -80,7 +83,7 @@ document.addEventListener('click', e => {
   if (b = q('[data-f]')) { f = b.dataset.f; pg = 0; route() }
   if (b = q('[data-pg]')) { pg += +b.dataset.pg; route() }
   if (b = q('[data-t]')) { const x = tiles[b.dataset.t]; dlg.innerHTML = `<button class="btn ghost" onclick="dlg.close()">Close</button><h3>${x.t}</h3><div class="big" role="img" aria-label="${x.t}" style="background-image:var(${x.im});background-position:${x.p}"></div>`; dlg.showModal() }
-  if (b = q('[data-u]')) { const u = GAL.items.find(x => x.id == b.dataset.u); if (u) { dlg.innerHTML = `<button class="btn ghost" onclick="dlg.close()">Close</button><h3>${esc(u.title)}</h3><img src="${esc(u.image_url)}" alt="${esc(u.title)}" style="max-width:100%;border-radius:12px"><p class="sub">${esc(u.club_name)} Club${u.event_name ? ' · ' + esc(u.event_name) : ''}</p>`; dlg.showModal() } }
+  if (b = q('[data-u]')) { const u = GAL.items.find(x => x.id == b.dataset.u); if (u) { dlg.innerHTML = `<button class="btn ghost" onclick="dlg.close()">Close</button><h3>${esc(u.title)}</h3><img src="${esc(assetUrl(u.image_url))}" alt="${esc(u.title)}" style="max-width:100%;border-radius:12px"><p class="sub">${esc(u.club_name)} Club${u.event_name ? ' · ' + esc(u.event_name) : ''}</p>`; dlg.showModal() } }
 });
 
 /* ---------- registration (all checks happen on the server) ---------- */
@@ -139,7 +142,7 @@ async function renderAdmin(m = '') {
   ${PH.items.map(u => `<div class="row"><span>${esc(u.title)} <small>(${esc(u.club_name)})</small></span><button class="chip danger" data-act="pd" data-id="${u.id}">Delete</button></div>`).join('')}</div></div>
  <div class="box" style="margin-top:20px"><h3>Registration links</h3><div class="row"><select id="lc" style="max-width:180px">${opts}</select><input id="lt" placeholder="Link title" style="max-width:220px"><input id="le" type="date" style="max-width:170px" aria-label="Expiry date"><button class="btn" data-act="lk">Generate link</button></div>
   ${LK.map(l => `<div class="row"><span><code>${esc(l.url)}</code> <small>(${esc(l.title)})</small></span><span><button class="chip" data-act="lt2" data-id="${l.id}" data-on="${l.active}">${l.active ? 'Disable' : 'Enable'}</button> <button class="chip danger" data-act="ld" data-id="${l.id}">Delete</button></span></div>`).join('')}</div>
- <div class="box" style="margin-top:20px"><div class="row"><h3>Members (${ST.total})</h3><input id="sq" placeholder="Search USN, name, branch or club ID" style="max-width:320px" aria-label="Search members"><a class="btn ghost" href="/api/admin/students/export">Export CSV</a></div><div class="tw"><table><thead><tr><th>Club ID</th><th>USN</th><th>Name</th><th>Branch</th><th>Club</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb">${rows(ST.items)}</tbody></table></div></div>`;
+ <div class="box" style="margin-top:20px"><div class="row"><h3>Members (${ST.total})</h3><input id="sq" placeholder="Search USN, name, branch or club ID" style="max-width:320px" aria-label="Search members"><a class="btn ghost" href="${API_BASE}/api/admin/students/export">Export CSV</a></div><div class="tw"><table><thead><tr><th>Club ID</th><th>USN</th><th>Name</th><th>Branch</th><th>Club</th><th>Status</th><th>Action</th></tr></thead><tbody id="tb">${rows(ST.items)}</tbody></table></div></div>`;
   const run = async fn => { try { await fn(); renderAdmin() } catch (x) { if (x.status === 401) { admin = null; renderAdmin('Session expired.') } else $('#am').textContent = x.message } }, v = s => $(s).value.trim();
   let tm; $('#sq').oninput = e => { clearTimeout(tm); tm = setTimeout(async () => { try { $('#tb').innerHTML = rows((await api('/api/admin/students?page_size=100&q=' + encodeURIComponent(e.target.value))).items) } catch (x) { } }, 300) };
   A.onchange = e => { const s = e.target.closest('[data-ms]'); if (s) run(() => api('/api/admin/memberships/' + s.dataset.ms, { m: 'PATCH', body: { status: s.value } })) };
