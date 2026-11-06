@@ -1,8 +1,17 @@
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=(
+            Path(__file__).resolve().parent.parent / ".env",
+            Path(__file__).resolve().parent / ".env",
+            ".env",
+        ),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     app_env: str = "development"
     secret_key: str = "change-me-in-production"

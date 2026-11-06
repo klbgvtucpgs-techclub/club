@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sports Club · VTU Clubs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/club-pages.css">
+</head>
+<body data-club="sports">
+
+<header class="cp-header"><div class="cp-wrap cp-bar">
+ <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Clubs</span></a>
+ <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
+ <nav id="nav" class="cp-nav" aria-label="Main">
+  <a href="index.html#home">Home</a>
+  <a href="tech.html">Tech</a>
+  <a href="sports.html" aria-current="page">Sports</a>
+  <a href="culture.html">Culture</a>
+  <a href="multimedia.html">Multi Media</a>
+  <a href="index.html#register">Register</a>
+ </nav>
+</div></header>
+
+<main>
+ <section class="cp-hero"><div class="cp-wrap">
+  <img src="assets/images/sports.webp" alt="Sports Club badge">
+  <div>
+   <h1>Sports Club</h1>
+   <p>Inter-college tournaments, fitness drives and team training.</p>
+   <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost" href="index.html#gallery">Photos</a>
+  </div>
+ </div></section>
+
+ <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
+      after the last one, and edit the text. The card face is the <button>; everything inside
+      <template class="cp-detail"> is shown in the floating panel when the card is clicked.
+      LOGO: each card uses assets/images/subclubs/<name>.png (appears twice per block: card + panel).
+      Replace that file, or change the src in both places. -->
+ <section class="cp-sec"><div class="cp-wrap">
+  <h2>Our Sports Teams</h2>
+  <p class="cp-sub">Pick a team, train with it and compete for the college.</p>
+  <div class="cp-grid">
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/cricket.png" alt="Cricket logo" loading="lazy"></span>
+    <strong class="cp-name">Cricket</strong>
+    <span class="cp-tg">Inter-college leagues and weekly nets.</span>
+    <span class="cp-tags"><span>Nets practice</span><span>Inter-college leagues</span><span>Selection trials</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/cricket.png" alt="Cricket logo" loading="lazy"></div>
+    <h3>Cricket</h3>
+    <p class="tg">Inter-college leagues and weekly nets.</p>
+    <p>Add a longer description of Cricket here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Nets practice</li><li>Inter-college leagues</li><li>Selection trials</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>sports@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/football.png" alt="Football logo" loading="lazy"></span>
+    <strong class="cp-name">Football</strong>
+    <span class="cp-tg">Team training and tournaments.</span>
+    <span class="cp-tags"><span>Team training</span><span>Tournaments</span><span>Friendly matches</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/football.png" alt="Football logo" loading="lazy"></div>
+    <h3>Football</h3>
+    <p class="tg">Team training and tournaments.</p>
+    <p>Add a longer description of Football here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Team training</li><li>Tournaments</li><li>Friendly matches</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>sports@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/kabaddi.png" alt="Kabaddi logo" loading="lazy"></span>
+    <strong class="cp-name">Kabaddi</strong>
+    <span class="cp-tg">Fast, tactical and team-driven.</span>
+    <span class="cp-tags"><span>Skill drills</span><span>Inter-college matches</span><span>Fitness</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/kabaddi.png" alt="Kabaddi logo" loading="lazy"></div>
+    <h3>Kabaddi</h3>
+    <p class="tg">Fast, tactical and team-driven.</p>
+    <p>Add a longer description of Kabaddi here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Skill drills</li><li>Inter-college matches</li><li>Fitness</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>sports@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/athletics-fitness.png" alt="Athletics &amp; Fitness logo" loading="lazy"></span>
+    <strong class="cp-name">Athletics & Fitness</strong>
+    <span class="cp-tg">Annual athletics meet and fitness camps.</span>
+    <span class="cp-tags"><span>Track & field</span><span>Fitness camps</span><span>Annual meet</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/athletics-fitness.png" alt="Athletics &amp; Fitness logo" loading="lazy"></div>
+    <h3>Athletics & Fitness</h3>
+    <p class="tg">Annual athletics meet and fitness camps.</p>
+    <p>Add a longer description of Athletics & Fitness here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Track & field</li><li>Fitness camps</li><li>Annual meet</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>sports@vtu.example</dd></dl>
+   </template>
+  </div>
+  </div>
+ </div></section>
+
+ <section class="cp-sec"><div class="cp-wrap cp-two">
+  <div class="cp-box"><h3>Activities and events</h3>
+   <ul>
+    <li>Cricket, football, kabaddi</li>
+    <li>Annual athletics meet</li>
+    <li>Fitness camps</li>
+    <li>Inter-college leagues</li>
+   </ul>
+  </div>
+  <div class="cp-box"><h3>Club Coordinator</h3><p>Sports Club Head<br>sports@vtu.example</p></div>
+ </div></section>
+</main>
+
+<!-- Floating details panel (opened by a sub-club card) -->
+<dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
+
+<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+
+<script src="assets/js/club-pages.js"></script>
+</body>
+</html>

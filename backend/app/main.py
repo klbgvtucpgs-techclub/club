@@ -1,3 +1,8 @@
+"""VTU Clubs API.
+
+Run from the ``backend`` directory with ``uvicorn app.main:app --reload``.
+"""
+
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
