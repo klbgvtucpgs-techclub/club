@@ -1,140 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Multi Media Club · VTU Clubs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/club-pages.css">
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <title>Multi Media Club · VTU Clubs</title>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+     <link rel="stylesheet" href="assets/css/club-pages.css">
 </head>
+
 <body data-club="multimedia">
 
-<header class="cp-header"><div class="cp-wrap cp-bar">
- <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Clubs</span></a>
- <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
- <nav id="nav" class="cp-nav" aria-label="Main">
-  <a href="index.html#home">Home</a>
-  <a href="tech.html">Tech</a>
-  <a href="sports.html">Sports</a>
-  <a href="culture.html">Culture</a>
-  <a href="multimedia.html" aria-current="page">Multi Media</a>
-  <a href="management.html">Management</a>
-  <a href="index.html#register">Register</a>
- </nav>
-</div></header>
+     <header class="cp-header">
+          <div class="cp-wrap cp-bar">
+               <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp"
+                         alt="VTU logo"><span>Students Club</span></a>
+               <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
+               <nav id="nav" class="cp-nav" aria-label="Main">
+                    <a href="index.html#home">Home</a>
+                    <a href="tech.html">Tech</a>
+                    <a href="sports.html">Sports</a>
+                    <a href="culture.html">Culture</a>
+                    <a href="multimedia.html" aria-current="page">Multi Media</a>
+                    <a href="management.html">Management</a>
+                    <a href="index.html#register">Register</a>
+               </nav>
+          </div>
+     </header>
 
-<main>
- <section class="cp-hero"><div class="cp-wrap">
-  <img src="assets/images/media.png" alt="Multi Media Club badge">
-  <div>
-   <h1>Multi Media Club</h1>
-   <p>Photography, film-making, design and event coverage.</p>
-   <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost" href="index.html#gallery">Photos</a>
-  </div>
- </div></section>
+     <main>
+          <section class="cp-hero">
+               <div class="cp-wrap">
+                    <img src="assets/images/media.png" alt="Multi Media Club badge">
+                    <div>
+                         <h1>Multi Media Club</h1>
+                         <p>Photography, film-making, design and event coverage.</p>
+                         <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost"
+                              href="index.html#gallery">Photos</a>
+                    </div>
+               </div>
+          </section>
 
- <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
+          <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
       after the last one, and edit the text. The card face is the <button>; everything inside
       <template class="cp-detail"> is shown in the floating panel when the card is clicked.
       LOGO: each card uses assets/images/subclubs/<name>.png (appears twice per block: card + panel).
       Replace that file, or change the src in both places. -->
- <section class="cp-sec"><div class="cp-wrap">
-  <h2>Our Creative Teams</h2>
-  <p class="cp-sub">Shoot, edit, design and cover campus events with us.</p>
-  <div class="cp-grid">
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/mediaclub/photography.png" alt="Photography logo" loading="lazy"></span>
-    <strong class="cp-name">PHOTOGRAPY</strong>
-    <span class="cp-tg">Photo walks and event photography.</span>
-    <span class="cp-tags"><span>Photo walks</span><span>Editing</span><span>Event shoots</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/mediaclub/photography.png" alt="Photography logo" loading="lazy"></div>
-    <h3>PHOTOGRAPY</h3>
-    <p class="tg">Photo walks and event photography.</p>
-    <p>Add a longer description of Photography here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Photo walks</li><li>Editing</li><li>Event shoots</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>multimedia@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/mediaclub/videography.png" alt="Videography logo" loading="lazy"></span>
-    <strong class="cp-name">VIDEOGRAPY</strong>
-    <span class="cp-tg">Short films, contests and editing.</span>
-    <span class="cp-tags"><span>Short films</span><span>Editing</span><span>Contests</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/mediaclub/videography.png" alt="Videography logo" loading="lazy"></div>
-    <h3>VIDEOGRAPY</h3>
-    <p class="tg">Short films, contests and editing.</p>
-    <p>Add a longer description of Videography here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Short films</li><li>Editing</li><li>Contests</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>multimedia@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/mediaclub/editing.png" alt="Editing logo" loading="lazy"></span>
-    <strong class="cp-name">EDITING</strong>
-    <span class="cp-tg">Photo and video editing workshops.</span>
-    <span class="cp-tags"><span>Photo editing</span><span>Video editing</span><span>Workshops</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/mediaclub/editing.png" alt="Editing logo" loading="lazy"></div>
-    <h3>EDITING</h3>
-    <p class="tg">Photo and video editing workshops.</p>
-    <p>Add a longer description of Editing here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Photo editing</li><li>Video editing</li><li>Workshops</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>multimedia@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/mediaclub/digital marketing.png" alt="Digital Marketing logo" loading="lazy"></span>
-    <strong class="cp-name">DIGITAL MARKETING</strong>
-    <span class="cp-tg">Social media management and digital campaigns.</span>
-    <span class="cp-tags"><span>Social media</span><span>Digital campaigns</span><span>Content creation</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/mediaclub/digital marketing.png" alt="Digital Marketing logo" loading="lazy"></div>
-    <h3>DIGITAL MARKETING</h3>
-    <p class="tg">Social media management and digital campaigns.</p>
-    <p>Add a longer description of Digital Marketing here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Social media</li><li>Digital campaigns</li><li>Content creation</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>multimedia@vtu.example</dd></dl>
-   </template>
-  </div>
-  </div>
- </div></section>
+          <section class="cp-sec">
+               <div class="cp-wrap">
+                    <h2>Our Creative Teams</h2>
+                    <p class="cp-sub">Shoot, edit, design and cover campus events with us.</p>
+                    <div class="cp-grid">
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/mediaclub/photography.png"
+                                             alt="Photography logo" loading="lazy"></span>
+                                   <strong class="cp-name">PHOTOGRAPY</strong>
+                                   <span class="cp-tg">Photo walks and event photography.</span>
+                                   <span class="cp-tags"><span>Photo walks</span><span>Editing</span><span>Event
+                                             shoots</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/mediaclub/photography.png"
+                                             alt="Photography logo" loading="lazy"></div>
+                                   <h3>PHOTOGRAPY</h3>
+                                   <p class="tg">Photo walks and event photography.</p>
+                                   <p>Add a longer description of Photography here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Photo walks</li>
+                                        <li>Editing</li>
+                                        <li>Event shoots</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>multimedia@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/mediaclub/videography.png"
+                                             alt="Videography logo" loading="lazy"></span>
+                                   <strong class="cp-name">VIDEOGRAPY</strong>
+                                   <span class="cp-tg">Short films, contests and editing.</span>
+                                   <span class="cp-tags"><span>Short
+                                             films</span><span>Editing</span><span>Contests</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/mediaclub/videography.png"
+                                             alt="Videography logo" loading="lazy"></div>
+                                   <h3>VIDEOGRAPY</h3>
+                                   <p class="tg">Short films, contests and editing.</p>
+                                   <p>Add a longer description of Videography here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Short films</li>
+                                        <li>Editing</li>
+                                        <li>Contests</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>multimedia@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/mediaclub/editing.png"
+                                             alt="Editing logo" loading="lazy"></span>
+                                   <strong class="cp-name">EDITING</strong>
+                                   <span class="cp-tg">Photo and video editing workshops.</span>
+                                   <span class="cp-tags"><span>Photo editing</span><span>Video
+                                             editing</span><span>Workshops</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/mediaclub/editing.png"
+                                             alt="Editing logo" loading="lazy"></div>
+                                   <h3>EDITING</h3>
+                                   <p class="tg">Photo and video editing workshops.</p>
+                                   <p>Add a longer description of Editing here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Photo editing</li>
+                                        <li>Video editing</li>
+                                        <li>Workshops</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>multimedia@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/mediaclub/digital marketing.png"
+                                             alt="Digital Marketing logo" loading="lazy"></span>
+                                   <strong class="cp-name">DIGITAL MARKETING</strong>
+                                   <span class="cp-tg">Social media management and digital campaigns.</span>
+                                   <span class="cp-tags"><span>Social media</span><span>Digital
+                                             campaigns</span><span>Content creation</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/mediaclub/digital marketing.png"
+                                             alt="Digital Marketing logo" loading="lazy"></div>
+                                   <h3>DIGITAL MARKETING</h3>
+                                   <p class="tg">Social media management and digital campaigns.</p>
+                                   <p>Add a longer description of Digital Marketing here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Social media</li>
+                                        <li>Digital campaigns</li>
+                                        <li>Content creation</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>multimedia@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                    </div>
+               </div>
+          </section>
 
- <section class="cp-sec"><div class="cp-wrap cp-two">
-  <div class="cp-box"><h3>Activities and events</h3>
-   <ul>
-    <li>Photo walks</li>
-    <li>Short-film contests</li>
-    <li>Design workshops</li>
-    <li>Live event coverage</li>
-   </ul>
-  </div>
-  <div class="cp-box"><h3>Club Coordinator</h3><p>Multi Media Head<br>multimedia@vtu.example</p></div>
- </div></section>
-</main>
+          <section class="cp-sec">
+               <div class="cp-wrap cp-two">
+                    <div class="cp-box">
+                         <h3>Activities and events</h3>
+                         <ul>
+                              <li>Photo walks</li>
+                              <li>Short-film contests</li>
+                              <li>Design workshops</li>
+                              <li>Live event coverage</li>
+                         </ul>
+                    </div>
+                    <div class="cp-box">
+                         <h3>Club Coordinator</h3>
+                         <p>Multi Media Head<br>multimedia@vtu.example</p>
+                    </div>
+               </div>
+          </section>
+     </main>
 
-<!-- Floating details panel (opened by a sub-club card) -->
-<dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
+     <!-- Floating details panel (opened by a sub-club card) -->
+     <dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
 
-<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+     <footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
 
-<script src="assets/js/club-pages.js"></script>
+     <script src="assets/js/club-pages.js"></script>
 </body>
+
 </html>

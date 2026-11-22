@@ -1,140 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tech Club · VTU Clubs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/club-pages.css">
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <title>Tech Club · VTU Clubs</title>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+     <link rel="stylesheet" href="assets/css/club-pages.css">
 </head>
+
 <body data-club="tech">
 
-<header class="cp-header"><div class="cp-wrap cp-bar">
- <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Clubs</span></a>
- <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
- <nav id="nav" class="cp-nav" aria-label="Main">
-  <a href="index.html#home">Home</a>
-  <a href="tech.html" aria-current="page">Tech</a>
-  <a href="sports.html">Sports</a>
-  <a href="culture.html">Culture</a>
-  <a href="multimedia.html">Multi Media</a>
-  <a href="management.html">Management</a>
-  <a href="index.html#register">Register</a>
- </nav>
-</div></header>
+     <header class="cp-header">
+          <div class="cp-wrap cp-bar">
+               <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp"
+                         alt="VTU logo"><span>Students Club</span></a>
+               <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
+               <nav id="nav" class="cp-nav" aria-label="Main">
+                    <a href="index.html#home">Home</a>
+                    <a href="tech.html" aria-current="page">Tech</a>
+                    <a href="sports.html">Sports</a>
+                    <a href="culture.html">Culture</a>
+                    <a href="multimedia.html">Multi Media</a>
+                    <a href="management.html">Management</a>
+                    <a href="index.html#register">Register</a>
+               </nav>
+          </div>
+     </header>
 
-<main>
- <section class="cp-hero"><div class="cp-wrap">
-  <img src="assets/images/tech.png" alt="Tech Club badge">
-  <div>
-   <h1>Tech Club</h1>
-   <p>Hackathons, coding contests, robotics and AI/ML workshops for builders.</p>
-   <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost" href="index.html#gallery">Photos</a>
-  </div>
- </div></section>
+     <main>
+          <section class="cp-hero">
+               <div class="cp-wrap">
+                    <img src="assets/images/tech.png" alt="Tech Club badge">
+                    <div>
+                         <h1>Tech Club</h1>
+                         <p>Hackathons, coding contests, robotics and AI/ML workshops for builders.</p>
+                         <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost"
+                              href="index.html#gallery">Photos</a>
+                    </div>
+               </div>
+          </section>
 
- <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
+          <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
       after the last one, and edit the text. The card face is the <button>; everything inside
       <template class="cp-detail"> is shown in the floating panel when the card is clicked.
       LOGO: each card uses assets/images/subclubs/<name>.png (appears twice per block: card + panel).
       Replace that file, or change the src in both places. -->
- <section class="cp-sec"><div class="cp-wrap">
-  <h2>Our Technical Domains</h2>
-  <p class="cp-sub">Explore your interests, develop new skills and innovate through our specialized technical sub-clubs.</p>
-  <div class="cp-grid">
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/tech-subclubs/code-kala.png" alt="CODE-KALA logo" loading="lazy"></span>
-    <strong class="cp-name">CODE-KALA</strong>
-    <span class="cp-tg">Art of Coding – Transforming ideas into innovative software solutions.</span>
-    <span class="cp-tags"><span>Programming & DSA</span><span>Competitive Coding</span><span>Web & App Development</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/tech-subclubs/code-kala.png" alt="CODE-KALA logo" loading="lazy"></div>
-    <h3>CODE-KALA</h3>
-    <p class="tg">Art of Coding – Transforming ideas into innovative software solutions.</p>
-    <p>Add a longer description of CODE-KALA here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Programming & DSA</li><li>Competitive Coding</li><li>Web & App Development</li><li>Hackathons</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>tech@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/tech-subclubs/vigyan-x.png" alt="VIGYAN-X logo" loading="lazy"></span>
-    <strong class="cp-name">VIGYAN-X</strong>
-    <span class="cp-tg">Exploring the power of science, intelligence and emerging technologies.</span>
-    <span class="cp-tags"><span>Artificial Intelligence</span><span>Machine Learning</span><span>Data Science</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/tech-subclubs/vigyan-x.png" alt="VIGYAN-X logo" loading="lazy"></div>
-    <h3>VIGYAN-X</h3>
-    <p class="tg">Exploring the power of science, intelligence and emerging technologies.</p>
-    <p>Add a longer description of VIGYAN-X here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Artificial Intelligence</li><li>Machine Learning</li><li>Data Science</li><li>Research & Innovation</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>tech@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/tech-subclubs/yanthra-kala.png" alt="YANTHRA-KALA logo" loading="lazy"></span>
-    <strong class="cp-name">YANTHRA-KALA</strong>
-    <span class="cp-tg">Blending engineering creativity with machines, electronics and automation.</span>
-    <span class="cp-tags"><span>Robotics & IoT</span><span>Electronics & Circuits</span><span>Embedded Systems</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/tech-subclubs/yanthra-kala.png" alt="YANTHRA-KALA logo" loading="lazy"></div>
-    <h3>YANTHRA-KALA</h3>
-    <p class="tg">Blending engineering creativity with machines, electronics and automation.</p>
-    <p>Add a longer description of YANTHRA-KALA here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Robotics & IoT</li><li>Electronics & Circuits</li><li>Embedded Systems</li><li>Automation Projects</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>tech@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/tech-subclubs/Civinova.png" alt="CIVI-NOVA logo" loading="lazy"></span>
-    <strong class="cp-name">CIVI-NOVA</strong>
-    <span class="cp-tg">A platform to Imagine. Innovate. Engineer. Build..</span>
-    <span class="cp-tags"><span>Structural Engineering & design</span><span>Design & Development</span><span>Open Source Projects</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/tech-subclubs/Civinova.png" alt="CIVI-NOVA logo" loading="lazy"></div>
-    <h3>CIVI-NOVA</h3>
-    <p class="tg">A platform to Imagine. Innovate. Engineer. Build.</p>
-    <p>Add a longer description of CIVI-NOVA here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Technical Workshops</li><li>Tech Talks & Seminars</li><li>Open Source Projects</li><li>Technology Events</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>tech@vtu.example</dd></dl>
-   </template>
-  </div>
-  </div>
- </div></section>
+          <section class="cp-sec">
+               <div class="cp-wrap">
+                    <h2>Our Technical Domains</h2>
+                    <p class="cp-sub">Explore your interests, develop new skills and innovate through our specialized
+                         technical sub-clubs.</p>
+                    <div class="cp-grid">
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/tech-subclubs/code-kala.png"
+                                             alt="CODE-KALA logo" loading="lazy"></span>
+                                   <strong class="cp-name">CODE-KALA</strong>
+                                   <span class="cp-tg">Art of Coding – Transforming ideas into innovative software
+                                        solutions.</span>
+                                   <span class="cp-tags"><span>Programming & DSA</span><span>Competitive
+                                             Coding</span><span>Web & App Development</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/tech-subclubs/code-kala.png"
+                                             alt="CODE-KALA logo" loading="lazy"></div>
+                                   <h3>CODE-KALA</h3>
+                                   <p class="tg">Art of Coding – Transforming ideas into innovative software solutions.
+                                   </p>
+                                   <p>Add a longer description of CODE-KALA here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Programming & DSA</li>
+                                        <li>Competitive Coding</li>
+                                        <li>Web & App Development</li>
+                                        <li>Hackathons</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>tech@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/tech-subclubs/vigyan-x.png"
+                                             alt="VIGYAN-X logo" loading="lazy"></span>
+                                   <strong class="cp-name">VIGYAN-X</strong>
+                                   <span class="cp-tg">Exploring the power of science, intelligence and emerging
+                                        technologies.</span>
+                                   <span class="cp-tags"><span>Artificial Intelligence</span><span>Machine
+                                             Learning</span><span>Data Science</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/tech-subclubs/vigyan-x.png"
+                                             alt="VIGYAN-X logo" loading="lazy"></div>
+                                   <h3>VIGYAN-X</h3>
+                                   <p class="tg">Exploring the power of science, intelligence and emerging technologies.
+                                   </p>
+                                   <p>Add a longer description of VIGYAN-X here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Artificial Intelligence</li>
+                                        <li>Machine Learning</li>
+                                        <li>Data Science</li>
+                                        <li>Research & Innovation</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>tech@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/tech-subclubs/yanthra-kala.png"
+                                             alt="YANTHRA-KALA logo" loading="lazy"></span>
+                                   <strong class="cp-name">YANTHRA-KALA</strong>
+                                   <span class="cp-tg">Blending engineering creativity with machines, electronics and
+                                        automation.</span>
+                                   <span class="cp-tags"><span>Robotics & IoT</span><span>Electronics &
+                                             Circuits</span><span>Embedded Systems</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/tech-subclubs/yanthra-kala.png"
+                                             alt="YANTHRA-KALA logo" loading="lazy"></div>
+                                   <h3>YANTHRA-KALA</h3>
+                                   <p class="tg">Blending engineering creativity with machines, electronics and
+                                        automation.</p>
+                                   <p>Add a longer description of YANTHRA-KALA here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Robotics & IoT</li>
+                                        <li>Electronics & Circuits</li>
+                                        <li>Embedded Systems</li>
+                                        <li>Automation Projects</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>tech@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/tech-subclubs/Civinova.png"
+                                             alt="CIVI-NOVA logo" loading="lazy"></span>
+                                   <strong class="cp-name">CIVI-NOVA</strong>
+                                   <span class="cp-tg">A platform to Imagine. Innovate. Engineer. Build..</span>
+                                   <span class="cp-tags"><span>Structural Engineering & design</span><span>Design &
+                                             Development</span><span>Open Source Projects</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/tech-subclubs/Civinova.png"
+                                             alt="CIVI-NOVA logo" loading="lazy"></div>
+                                   <h3>CIVI-NOVA</h3>
+                                   <p class="tg">A platform to Imagine. Innovate. Engineer. Build.</p>
+                                   <p>Add a longer description of CIVI-NOVA here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Technical Workshops</li>
+                                        <li>Tech Talks & Seminars</li>
+                                        <li>Open Source Projects</li>
+                                        <li>Technology Events</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>tech@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                    </div>
+               </div>
+          </section>
 
- <section class="cp-sec"><div class="cp-wrap cp-two">
-  <div class="cp-box"><h3>Activities and events</h3>
-   <ul>
-    <li>Weekly coding sessions</li>
-    <li>Annual hackathon</li>
-    <li>Project showcases</li>
-    <li>Industry talks</li>
-   </ul>
-  </div>
-  <div class="cp-box"><h3>Club Coordinator</h3><p>Varun Kumar<br>Tech Club Head<br>tech@vtu.example</p></div>
- </div></section>
-</main>
+          <section class="cp-sec">
+               <div class="cp-wrap cp-two">
+                    <div class="cp-box">
+                         <h3>Activities and events</h3>
+                         <ul>
+                              <li>Weekly coding sessions</li>
+                              <li>Annual hackathon</li>
+                              <li>Project showcases</li>
+                              <li>Industry talks</li>
+                         </ul>
+                    </div>
+                    <div class="cp-box">
+                         <h3>Club Coordinator</h3>
+                         <p>Varun Kumar<br>Tech Club Head<br>tech@vtu.example</p>
+                    </div>
+               </div>
+          </section>
+     </main>
 
-<!-- Floating details panel (opened by a sub-club card) -->
-<dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
+     <!-- Floating details panel (opened by a sub-club card) -->
+     <dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
 
-<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+     <footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
 
-<script src="assets/js/club-pages.js"></script>
+     <script src="assets/js/club-pages.js"></script>
 </body>
+
 </html>

@@ -1,99 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Coordinator Portal · VTU Clubs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/coordinator.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Coordinator Portal · VTU Clubs</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/coordinator.css">
 </head>
+
 <body>
 
-<header><div class="wrap"><div class="bar">
- <a class="brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Club Cluster<small>Coordinator Portal</small></span></a>
- <nav aria-label="Main"><a href="index.html#home">Home</a></nav>
-</div></div></header>
+    <header>
+        <div class="wrap">
+            <div class="bar">
+                <a class="brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp"
+                        alt="VTU logo"><span>Students Club<small>Coordinator Portal</small></span></a>
+                <nav aria-label="Main"><a href="index.html#home">Home</a></nav>
+            </div>
+        </div>
+    </header>
 
-<main class="wrap top">
+    <main class="wrap top">
 
- <!-- ============ LOGIN ============ -->
- <section id="login-view">
-  <h2>Coordinator Login</h2>
-  <p class="sub">Sign in with the unique username and password given to you by the admin.</p>
-  <form class="form" id="login-form" novalidate>
-   <label for="cu">Username</label><input id="cu" autocomplete="username">
-   <label for="cp">Password</label><input id="cp" type="password" autocomplete="current-password">
-   <p class="err" id="login-err" role="alert"></p>
-   <button class="btn" type="submit">Sign in</button>
-   <p class="note" id="demo-note" hidden></p>
-  </form>
- </section>
+        <!-- ============ LOGIN ============ -->
+        <section id="login-view">
+            <h2>Coordinator Login</h2>
+            <p class="sub">Sign in with the unique username and password given to you by the admin.</p>
+            <form class="form" id="login-form" novalidate>
+                <label for="cu">Username</label><input id="cu" autocomplete="username">
+                <label for="cp">Password</label><input id="cp" type="password" autocomplete="current-password">
+                <p class="err" id="login-err" role="alert"></p>
+                <button class="btn" type="submit">Sign in</button>
+                <p class="note" id="demo-note" hidden></p>
+            </form>
+        </section>
 
- <!-- ============ DASHBOARD (shown after login) ============ -->
- <section id="dash-view" hidden>
-  <div class="row">
-   <div><h2 id="co-club"></h2><p class="sub" id="co-name"></p></div>
-   <button class="btn ghost" id="logout" type="button">Log out</button>
-  </div>
+        <!-- ============ DASHBOARD (shown after login) ============ -->
+        <section id="dash-view" hidden>
+            <div class="row">
+                <div>
+                    <h2 id="co-club"></h2>
+                    <p class="sub" id="co-name"></p>
+                </div>
+                <button class="btn ghost" id="logout" type="button">Log out</button>
+            </div>
 
-  <div class="stats">
-   <div class="box"><b id="n-ann">0</b>Announcements</div>
-   <div class="box"><b id="n-ph">0</b>Photos</div>
-   <div class="box"><b id="n-rep">0</b>Reports</div>
-  </div>
+            <div class="stats">
+                <div class="box"><b id="n-ann">0</b>Announcements</div>
+                <div class="box"><b id="n-ph">0</b>Photos</div>
+                <div class="box"><b id="n-rep">0</b>Reports</div>
+            </div>
 
-  <p id="msg" class="err" role="alert"></p>
+            <p id="msg" class="err" role="alert"></p>
 
-  <div class="filters" role="group" aria-label="Coordinator sections">
-   <button class="chip" data-tab="ann" aria-pressed="true">Announcements</button>
-   <button class="chip" data-tab="ph" aria-pressed="false">Upload photos</button>
-   <button class="chip" data-tab="rep" aria-pressed="false">Upload reports</button>
-  </div>
+            <div class="filters" role="group" aria-label="Coordinator sections">
+                <button class="chip" data-tab="ann" aria-pressed="true">Announcements</button>
+                <button class="chip" data-tab="ph" aria-pressed="false">Upload photos</button>
+                <button class="chip" data-tab="rep" aria-pressed="false">Upload reports</button>
+            </div>
 
-  <!-- Announcements -->
-  <div class="two" id="tab-ann">
-   <form class="box" id="ann-form" novalidate>
-    <h3>New announcement</h3>
-    <label for="at">Title</label><input id="at" maxlength="120">
-    <label for="am">Message</label><textarea id="am" rows="5" maxlength="1000"></textarea>
-    <p><button class="btn" type="submit">Publish</button></p>
-   </form>
-   <div class="box"><h3>Your announcements</h3><div class="list" id="ann-list"></div></div>
-  </div>
+            <!-- Announcements -->
+            <div class="two" id="tab-ann">
+                <form class="box" id="ann-form" novalidate>
+                    <h3>New announcement</h3>
+                    <label for="at">Title</label><input id="at" maxlength="120">
+                    <label for="am">Message</label><textarea id="am" rows="5" maxlength="1000"></textarea>
+                    <p><button class="btn" type="submit">Publish</button></p>
+                </form>
+                <div class="box">
+                    <h3>Your announcements</h3>
+                    <div class="list" id="ann-list"></div>
+                </div>
+            </div>
 
-  <!-- Photos -->
-  <div class="two" id="tab-ph" hidden>
-   <form class="box" id="ph-form" novalidate>
-    <h3>Upload photos</h3>
-    <label for="phf">Images (JPG, PNG, WebP, up to 5 MB each)</label>
-    <input id="phf" type="file" accept="image/*" multiple>
-    <div class="thumbs" id="ph-prev"></div>
-    <label for="pt">Title</label><input id="pt" maxlength="120">
-    <label for="pe">Event name</label><input id="pe" maxlength="120">
-    <p><button class="btn" type="submit">Upload photos</button></p>
-   </form>
-   <div class="box"><h3>Your photos</h3><div class="thumbs" id="ph-list"></div></div>
-  </div>
+            <!-- Photos -->
+            <div class="two" id="tab-ph" hidden>
+                <form class="box" id="ph-form" novalidate>
+                    <h3>Upload photos</h3>
+                    <label for="phf">Images (JPG, PNG, WebP, up to 5 MB each)</label>
+                    <input id="phf" type="file" accept="image/*" multiple>
+                    <div class="thumbs" id="ph-prev"></div>
+                    <label for="pt">Title</label><input id="pt" maxlength="120">
+                    <label for="pe">Event name</label><input id="pe" maxlength="120">
+                    <p><button class="btn" type="submit">Upload photos</button></p>
+                </form>
+                <div class="box">
+                    <h3>Your photos</h3>
+                    <div class="thumbs" id="ph-list"></div>
+                </div>
+            </div>
 
-  <!-- Reports -->
-  <div class="two" id="tab-rep" hidden>
-   <form class="box" id="rep-form" novalidate>
-    <h3>Upload report</h3>
-    <label for="rf">Report file (PDF, Word, Excel or PowerPoint, up to 10 MB)</label>
-    <input id="rf" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
-    <label for="rt">Report title</label><input id="rt" maxlength="150">
-    <label for="rd">Event date</label><input id="rd" type="date">
-    <label for="rs">Short summary</label><textarea id="rs" rows="3" maxlength="500"></textarea>
-    <p><button class="btn" type="submit">Upload report</button></p>
-   </form>
-   <div class="box"><h3>Your reports</h3><div class="list" id="rep-list"></div></div>
-  </div>
- </section>
+            <!-- Reports -->
+            <div class="two" id="tab-rep" hidden>
+                <form class="box" id="rep-form" novalidate>
+                    <h3>Upload report</h3>
+                    <label for="rf">Report file (PDF, Word, Excel or PowerPoint, up to 10 MB)</label>
+                    <input id="rf" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                    <label for="rt">Report title</label><input id="rt" maxlength="150">
+                    <label for="rd">Event date</label><input id="rd" type="date">
+                    <label for="rs">Short summary</label><textarea id="rs" rows="3" maxlength="500"></textarea>
+                    <p><button class="btn" type="submit">Upload report</button></p>
+                </form>
+                <div class="box">
+                    <h3>Your reports</h3>
+                    <div class="list" id="rep-list"></div>
+                </div>
+            </div>
+        </section>
 
-</main>
+    </main>
 
-<footer>&copy; 2026 VTU Clubs &middot; Coordinator Portal</footer>
-<script src="assets/js/coordinator.js"></script>
+    <footer>&copy; 2026 VTU Clubs &middot; Coordinator Portal</footer>
+    <script src="assets/js/coordinator.js"></script>
 </body>
+
 </html>

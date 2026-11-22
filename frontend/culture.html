@@ -1,140 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Culture Club · VTU Clubs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/club-pages.css">
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <title>Culture Club · VTU Clubs</title>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+     <link rel="stylesheet" href="assets/css/club-pages.css">
 </head>
+
 <body data-club="culture">
 
-<header class="cp-header"><div class="cp-wrap cp-bar">
- <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Club Cluster</span></a>
- <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
- <nav id="nav" class="cp-nav" aria-label="Main">
-  <a href="index.html#home">Home</a>
-  <a href="tech.html">Tech</a>
-  <a href="sports.html">Sports</a>
-  <a href="culture.html" aria-current="page">Culture</a>
-  <a href="multimedia.html">Multi Media</a>
-  <a href="management.html">Management</a>
-  <a href="index.html#register">Register</a>
- </nav>
-</div></header>
+     <header class="cp-header">
+          <div class="cp-wrap cp-bar">
+               <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp"
+                         alt="VTU logo"><span>Students Club</span></a>
+               <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
+               <nav id="nav" class="cp-nav" aria-label="Main">
+                    <a href="index.html#home">Home</a>
+                    <a href="tech.html">Tech</a>
+                    <a href="sports.html">Sports</a>
+                    <a href="culture.html" aria-current="page">Culture</a>
+                    <a href="multimedia.html">Multi Media</a>
+                    <a href="management.html">Management</a>
+                    <a href="index.html#register">Register</a>
+               </nav>
+          </div>
+     </header>
 
-<main>
- <section class="cp-hero"><div class="cp-wrap">
-  <img src="assets/images/culture.jpeg" alt="Culture Club badge">
-  <div>
-   <h1>Culture Club</h1>
-   <p>Music, dance, drama and celebrations of Indian heritage.</p>
-   <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost" href="index.html#gallery">Photos</a>
-  </div>
- </div></section>
+     <main>
+          <section class="cp-hero">
+               <div class="cp-wrap">
+                    <img src="assets/images/culture.jpeg" alt="Culture Club badge">
+                    <div>
+                         <h1>Culture Club</h1>
+                         <p>Music, dance, drama and celebrations of Indian heritage.</p>
+                         <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost"
+                              href="index.html#gallery">Photos</a>
+                    </div>
+               </div>
+          </section>
 
- <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
+          <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
       after the last one, and edit the text. The card face is the <button>; everything inside
       <template class="cp-detail"> is shown in the floating panel when the card is clicked.
       LOGO: each card uses assets/images/subclubs/<name>.png (appears twice per block: card + panel).
       Replace that file, or change the src in both places. -->
- <section class="cp-sec"><div class="cp-wrap">
-  <h2>Our Cultural Groups</h2>
-  <p class="cp-sub">Find the stage that suits you, from music to heritage days.</p>
-  <div class="cp-grid">
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/culturalclub/swara.png" alt="Music logo" loading="lazy"></span>
-    <strong class="cp-name">SWARA</strong>
-    <span class="cp-tg">Vocal, instrumental and music nights.</span>
-    <span class="cp-tags"><span>Vocals</span><span>Instruments</span><span>Music nights</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/culturalclub/swara.png" alt="Music logo" loading="lazy"></div>
-    <h3>SWARA</h3>
-    <p class="tg">Vocal, instrumental and music nights.</p>
-    <p>Add a longer description of music here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Vocals</li><li>Instruments</li><li>Music nights</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>culture@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/culturalclub/nrithya.png" alt="Dance logo" loading="lazy"></span>
-    <strong class="cp-name">NRITHYA</strong>
-    <span class="cp-tg">Classical, folk and contemporary.</span>
-    <span class="cp-tags"><span>Classical</span><span>Folk</span><span>Contemporary</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/culturalclub/nrithya.png" alt="Dance logo" loading="lazy"></div>
-    <h3>NRITHYA</h3>
-    <p class="tg">Classical, folk and contemporary.</p>
-    <p>Add a longer description of Dance here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Classical</li><li>Folk</li><li>Contemporary</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>culture@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/culturalclub/abhinaya.png" alt="Drama logo" loading="lazy"></span>
-    <strong class="cp-name">ABHINAYA</strong>
-    <span class="cp-tg">Stage plays and drama workshops.</span>
-    <span class="cp-tags"><span>Acting</span><span>Scriptwriting</span><span>Stage plays</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/culturalclub/abhinaya.png" alt="Drama logo" loading="lazy"></div>
-    <h3>ABHINAYA</h3>
-    <p class="tg">Stage plays and drama workshops.</p>
-    <p>Add a longer description of Drama here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Acting</li><li>Scriptwriting</li><li>Stage plays</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>culture@vtu.example</dd></dl>
-   </template>
-  </div>
-  <div class="cp-item">
-   <button type="button" class="cp-card" aria-haspopup="dialog">
-    <span class="cp-ico logo"><img src="assets/images/culturalclub/chitrakala.png" alt="Chitrakala logo" loading="lazy"></span>
-    <strong class="cp-name">CHITRAKALA</strong>
-    <span class="cp-tg">Artistic expression and cultural events.</span>
-    <span class="cp-tags"><span>Art exhibitions</span><span>Painting workshops</span><span>Cultural events</span></span>
-    <span class="cp-more">View details</span>
-   </button>
-   <template class="cp-detail">
-    <div class="cp-ico logo"><img src="assets/images/culturalclub/chitrakala.png" alt="Chitrakala logo" loading="lazy"></div>
-    <h3>CHITRAKALA</h3>
-    <p class="tg">Artistic expression and cultural events.</p>
-    <p>Add a longer description of Chitrakala here.</p>
-    <h4>What you will do</h4>
-    <ul><li>Art exhibitions</li><li>Painting workshops</li><li>Cultural events</li></ul>
-    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>culture@vtu.example</dd></dl>
-   </template>
-  </div>
-  </div>
- </div></section>
+          <section class="cp-sec">
+               <div class="cp-wrap">
+                    <h2>Our Cultural Groups</h2>
+                    <p class="cp-sub">Find the stage that suits you, from music to heritage days.</p>
+                    <div class="cp-grid">
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/culturalclub/swara.png"
+                                             alt="Music logo" loading="lazy"></span>
+                                   <strong class="cp-name">SWARA</strong>
+                                   <span class="cp-tg">Vocal, instrumental and music nights.</span>
+                                   <span class="cp-tags"><span>Vocals</span><span>Instruments</span><span>Music
+                                             nights</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/culturalclub/swara.png"
+                                             alt="Music logo" loading="lazy"></div>
+                                   <h3>SWARA</h3>
+                                   <p class="tg">Vocal, instrumental and music nights.</p>
+                                   <p>Add a longer description of music here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Vocals</li>
+                                        <li>Instruments</li>
+                                        <li>Music nights</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>culture@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/culturalclub/nrithya.png"
+                                             alt="Dance logo" loading="lazy"></span>
+                                   <strong class="cp-name">NRITHYA</strong>
+                                   <span class="cp-tg">Classical, folk and contemporary.</span>
+                                   <span
+                                        class="cp-tags"><span>Classical</span><span>Folk</span><span>Contemporary</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/culturalclub/nrithya.png"
+                                             alt="Dance logo" loading="lazy"></div>
+                                   <h3>NRITHYA</h3>
+                                   <p class="tg">Classical, folk and contemporary.</p>
+                                   <p>Add a longer description of Dance here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Classical</li>
+                                        <li>Folk</li>
+                                        <li>Contemporary</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>culture@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/culturalclub/abhinaya.png"
+                                             alt="Drama logo" loading="lazy"></span>
+                                   <strong class="cp-name">ABHINAYA</strong>
+                                   <span class="cp-tg">Stage plays and drama workshops.</span>
+                                   <span class="cp-tags"><span>Acting</span><span>Scriptwriting</span><span>Stage
+                                             plays</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/culturalclub/abhinaya.png"
+                                             alt="Drama logo" loading="lazy"></div>
+                                   <h3>ABHINAYA</h3>
+                                   <p class="tg">Stage plays and drama workshops.</p>
+                                   <p>Add a longer description of Drama here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Acting</li>
+                                        <li>Scriptwriting</li>
+                                        <li>Stage plays</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>culture@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                         <div class="cp-item">
+                              <button type="button" class="cp-card" aria-haspopup="dialog">
+                                   <span class="cp-ico logo"><img src="assets/images/culturalclub/chitrakala.png"
+                                             alt="Chitrakala logo" loading="lazy"></span>
+                                   <strong class="cp-name">CHITRAKALA</strong>
+                                   <span class="cp-tg">Artistic expression and cultural events.</span>
+                                   <span class="cp-tags"><span>Art exhibitions</span><span>Painting
+                                             workshops</span><span>Cultural events</span></span>
+                                   <span class="cp-more">View details</span>
+                              </button>
+                              <template class="cp-detail">
+                                   <div class="cp-ico logo"><img src="assets/images/culturalclub/chitrakala.png"
+                                             alt="Chitrakala logo" loading="lazy"></div>
+                                   <h3>CHITRAKALA</h3>
+                                   <p class="tg">Artistic expression and cultural events.</p>
+                                   <p>Add a longer description of Chitrakala here.</p>
+                                   <h4>What you will do</h4>
+                                   <ul>
+                                        <li>Art exhibitions</li>
+                                        <li>Painting workshops</li>
+                                        <li>Cultural events</li>
+                                   </ul>
+                                   <dl>
+                                        <dt>Meets</dt>
+                                        <dd>Add day and venue</dd>
+                                        <dt>Coordinator</dt>
+                                        <dd>Add coordinator name</dd>
+                                        <dt>Contact</dt>
+                                        <dd>culture@vtu.example</dd>
+                                   </dl>
+                              </template>
+                         </div>
+                    </div>
+               </div>
+          </section>
 
- <section class="cp-sec"><div class="cp-wrap cp-two">
-  <div class="cp-box"><h3>Activities and events</h3>
-   <ul>
-    <li>Annual cultural fest</li>
-    <li>Dance and music nights</li>
-    <li>Drama workshops</li>
-    <li>Heritage days</li>
-   </ul>
-  </div>
-  <div class="cp-box"><h3>Club Coordinator</h3><p>Culture Club Head<br>culture@vtu.example</p></div>
- </div></section>
-</main>
+          <section class="cp-sec">
+               <div class="cp-wrap cp-two">
+                    <div class="cp-box">
+                         <h3>Activities and events</h3>
+                         <ul>
+                              <li>Annual cultural fest</li>
+                              <li>Dance and music nights</li>
+                              <li>Drama workshops</li>
+                              <li>Heritage days</li>
+                         </ul>
+                    </div>
+                    <div class="cp-box">
+                         <h3>Club Coordinator</h3>
+                         <p>Culture Club Head<br>culture@vtu.example</p>
+                    </div>
+               </div>
+          </section>
+     </main>
 
-<!-- Floating details panel (opened by a sub-club card) -->
-<dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
+     <!-- Floating details panel (opened by a sub-club card) -->
+     <dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
 
-<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+     <footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
 
-<script src="assets/js/club-pages.js"></script>
+     <script src="assets/js/club-pages.js"></script>
 </body>
+
 </html>
