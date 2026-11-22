@@ -83,13 +83,29 @@ class SendOtpIn(BaseModel):
 
 class VerifyOtpIn(BaseModel):
     pending_id: str = Field(max_length=32)
-    otp: str = Field(pattern=r"^\d{6}$")
+    otp: str = Field(max_length=16)
     captcha_token: Optional[str] = Field(default=None, max_length=4096)
+
+    @field_validator("otp")
+    @classmethod
+    def clean_otp(cls, v: str) -> str:
+        v = re.sub(r"[\s-]", "", v.strip())
+        if not re.fullmatch(r"^\d{6}$", v):
+            raise ValueError("OTP verification code must be exactly 6 digits")
+        return v
 
 
 class StudentLoginIn(BaseModel):
     email: EmailStr
-    otp: str = Field(pattern=r"^\d{6}$")
+    otp: str = Field(max_length=16)
+
+    @field_validator("otp")
+    @classmethod
+    def clean_otp(cls, v: str) -> str:
+        v = re.sub(r"[\s-]", "", v.strip())
+        if not re.fullmatch(r"^\d{6}$", v):
+            raise ValueError("OTP verification code must be exactly 6 digits")
+        return v
 
 
 class StudentOut(BaseModel):
@@ -133,6 +149,12 @@ class PhotoOut(BaseModel):
     club_name: str
     image_url: str
     uploaded_at: datetime
+
+
+class PhotoPatch(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=150)
+    event_name: Optional[str] = Field(default=None, max_length=150)
+    club_slug: Optional[str] = Field(default=None, max_length=40)
 
 
 class Page(BaseModel):

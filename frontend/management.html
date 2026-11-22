@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Management Club · VTU Clubs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="assets/css/club-pages.css">
+</head>
+<body data-club="management">
+
+<header class="cp-header"><div class="cp-wrap cp-bar">
+ <a class="cp-brand" href="index.html#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Clubs</span></a>
+ <button id="menu" class="cp-btn ghost cp-menu" aria-expanded="false" aria-controls="nav">Menu</button>
+ <nav id="nav" class="cp-nav" aria-label="Main">
+  <a href="index.html#home">Home</a>
+  <a href="tech.html">Tech</a>
+  <a href="sports.html">Sports</a>
+  <a href="culture.html">Culture</a>
+  <a href="multimedia.html">Multi Media</a>
+  <a href="management.html" aria-current="page">Management</a>
+  <a href="index.html#register">Register</a>
+ </nav>
+</div></header>
+
+<main>
+ <section class="cp-hero"><div class="cp-wrap">
+  <img src="assets/images/management.png" alt="Management Club badge">
+  <div>
+   <h1>Management Club</h1>
+   <p>A platform to explore, learn and lead in management. Learn, Lead, Manage, Innovate, Create Value.</p>
+   <a class="cp-btn" href="index.html#register">Join this club</a><a class="cp-btn ghost" href="index.html#gallery">Photos</a>
+  </div>
+ </div></section>
+
+ <!-- ADD A SUB-CLUB: copy one whole <div class="cp-item"> ... </div> block below, paste it
+      after the last one, and edit the text. The card face is the <button>; everything inside
+      <template class="cp-detail"> is shown in the floating panel when the card is clicked.
+      LOGO: each card uses assets/images/subclubs/<name>.png (appears twice per block: card + panel).
+      Replace that file, or change the src in both places. -->
+ <section class="cp-sec"><div class="cp-wrap">
+  <h2>Our Major Clubs</h2>
+  <p class="cp-sub">Finance, marketing, people and innovation. Choose the area you want to grow in.</p>
+  <div class="cp-grid">
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/finance-club.png" alt="Finance Club logo" loading="lazy"></span>
+    <strong class="cp-name">Finance Club</strong>
+    <span class="cp-tg">Understanding money, markets and smart financial decisions.</span>
+    <span class="cp-tags"><span>Financial Analysis</span><span>Investment &amp; Markets</span><span>Corporate Finance</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/finance-club.png" alt="Finance Club logo" loading="lazy"></div>
+    <h3>Finance Club</h3>
+    <p class="tg">Understanding money, markets and smart financial decisions.</p>
+    <p>Add a longer description of Finance Club here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Financial Analysis</li><li>Investment &amp; Markets</li><li>Corporate Finance</li><li>Financial Literacy</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>management@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/marketing-club.png" alt="Marketing Club logo" loading="lazy"></span>
+    <strong class="cp-name">Marketing Club</strong>
+    <span class="cp-tg">Building brands and connecting with consumers.</span>
+    <span class="cp-tags"><span>Branding &amp; Promotion</span><span>Consumer Insights</span><span>Market Research</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/marketing-club.png" alt="Marketing Club logo" loading="lazy"></div>
+    <h3>Marketing Club</h3>
+    <p class="tg">Building brands and connecting with consumers.</p>
+    <p>Add a longer description of Marketing Club here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Branding &amp; Promotion</li><li>Consumer Insights</li><li>Market Research</li><li>Digital Marketing</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>management@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/human-resources-club.png" alt="Human Resources Club logo" loading="lazy"></span>
+    <strong class="cp-name">Human Resources Club</strong>
+    <span class="cp-tg">Growing people, teams and workplace culture.</span>
+    <span class="cp-tags"><span>Talent Management</span><span>Leadership &amp; Team Building</span><span>Organizational Behavior</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/human-resources-club.png" alt="Human Resources Club logo" loading="lazy"></div>
+    <h3>Human Resources Club</h3>
+    <p class="tg">Growing people, teams and workplace culture.</p>
+    <p>Add a longer description of Human Resources Club here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Talent Management</li><li>Leadership &amp; Team Building</li><li>Organizational Behavior</li><li>People &amp; Culture</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>management@vtu.example</dd></dl>
+   </template>
+  </div>
+  <div class="cp-item">
+   <button type="button" class="cp-card" aria-haspopup="dialog">
+    <span class="cp-ico logo"><img src="assets/images/subclubs/innovation-ideathon.png" alt="Innovation Ideathon logo" loading="lazy"></span>
+    <strong class="cp-name">Innovation Ideathon</strong>
+    <span class="cp-tg">Turning bold ideas into validated solutions.</span>
+    <span class="cp-tags"><span>Idea Generation</span><span>Problem Solving</span><span>Prototype &amp; Validation</span></span>
+    <span class="cp-more">View details</span>
+   </button>
+   <template class="cp-detail">
+    <div class="cp-ico logo"><img src="assets/images/subclubs/innovation-ideathon.png" alt="Innovation Ideathon logo" loading="lazy"></div>
+    <h3>Innovation Ideathon</h3>
+    <p class="tg">Turning bold ideas into validated solutions.</p>
+    <p>Add a longer description of Innovation Ideathon here.</p>
+    <h4>What you will do</h4>
+    <ul><li>Idea Generation</li><li>Problem Solving</li><li>Prototype &amp; Validation</li><li>Pitch &amp; Implementation</li></ul>
+    <dl><dt>Meets</dt><dd>Add day and venue</dd><dt>Coordinator</dt><dd>Add coordinator name</dd><dt>Contact</dt><dd>management@vtu.example</dd></dl>
+   </template>
+  </div>
+  </div>
+ </div></section>
+
+ <section class="cp-sec"><div class="cp-wrap cp-two">
+  <div class="cp-box"><h3>Activities and events</h3>
+   <ul>
+    <li>Workshops &amp; Training</li>
+    <li>Expert Talks</li>
+    <li>Case Study Challenges</li>
+    <li>Business &amp; Management Competitions</li>
+    <li>Industry Visits</li>
+    <li>Events &amp; Ideathons</li>
+   </ul>
+  </div>
+  <div class="cp-box"><h3>Club Coordinator</h3><p>Management Club Head<br>management@vtu.example</p></div>
+ </div></section>
+</main>
+
+<!-- Floating details panel (opened by a sub-club card) -->
+<dialog id="subclub-panel" class="cp-panel" aria-label="Sub-club details"></dialog>
+
+<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+
+<script src="assets/js/club-pages.js"></script>
+</body>
+</html>

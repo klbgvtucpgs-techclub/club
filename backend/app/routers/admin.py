@@ -14,7 +14,7 @@ from ..dependencies import (ADMIN_COOKIE, CSRF_COOKIE, clear_cookie, client_ip, 
                             require_superadmin, set_cookie)
 from ..models import Admin, Announcement, AuditLog, Club, Membership, Photo, RegistrationLink, Student
 from ..schemas import (AdminCreateIn, AdminLoginIn, AnnouncementCreate, AnnouncementOut, AnnouncementPatch,
-                       LinkCreate, LinkPatch, MembershipPatch, MessageOut, Page, PhotoOut)
+                       LinkCreate, LinkPatch, MembershipPatch, MessageOut, Page, PhotoOut, PhotoPatch)
 from ..security import DUMMY_HASH, create_token, hash_password, new_csrf_token, verify_password
 from ..services import storage_service
 from ..utils import utcnow
@@ -127,6 +127,25 @@ def upload_photo(request: Request, club_slug: str = Form(..., max_length=40), ti
         db.rollback()
         storage_service.delete_image(path)
         raise
+    db.refresh(photo)
+    return photo_out(photo)
+
+
+@router.patch("/photos/{photo_id}", response_model=PhotoOut)
+def edit_photo(photo_id: int, data: PhotoPatch, request: Request, admin: Admin = Depends(require_admin), db: Session = Depends(get_db)):
+    photo = db.get(Photo, photo_id)
+    if not photo:
+        raise HTTPException(404, "Photo not found")
+    sent = data.model_fields_set
+    if "title" in sent and data.title is not None:
+        photo.title = data.title.strip()
+    if "event_name" in sent and data.event_name is not None:
+        photo.event_name = data.event_name.strip()
+    if "club_slug" in sent and data.club_slug is not None:
+        club = club_by_slug(db, data.club_slug)
+        photo.club_id = club.id
+    audit(db, admin, request, "photo.update", str(photo.id), photo.title)
+    db.commit()
     db.refresh(photo)
     return photo_out(photo)
 

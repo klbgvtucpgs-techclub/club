@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request, Response
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -66,6 +66,8 @@ def register(data: RegisterIn, db: Session = Depends(get_db)):
 @router.post("/send-otp", response_model=MessageOut, dependencies=[Depends(rate_limit("send_otp", 6, 600))])
 def send_otp(data: SendOtpIn, background: BackgroundTasks, db: Session = Depends(get_db)):
     generic = MessageOut(message="If the details are valid, a verification code has been emailed.")
+    name = None
+    club_name = None
     if data.purpose == "register":
         if not data.pending_id:
             raise HTTPException(422, "pending_id is required")
@@ -73,24 +75,40 @@ def send_otp(data: SendOtpIn, background: BackgroundTasks, db: Session = Depends
         if not pending or aware(pending.expires_at) < utcnow():
             raise HTTPException(404, "Registration session expired. Please register again.")
         email = pending.email
+        name = pending.full_name
+        club = db.get(Club, pending.club_id)
+        if club:
+            club_name = club.name
     else:
         if not data.email:
             raise HTTPException(422, "email is required")
         email = data.email.lower()
-        if not db.scalar(select(Student.id).where(Student.email == email, Student.email_verified.is_(True))):
+        student = db.scalar(select(Student).where(Student.email == email, Student.email_verified.is_(True)))
+        if not student:
             return generic  # do not reveal whether the email is registered
+        name = student.full_name
 
     last = db.scalar(select(EmailOTP).where(EmailOTP.email == email, EmailOTP.purpose == data.purpose,
                                          EmailOTP.consumed_at.is_(None))
                      .order_by(EmailOTP.created_at.desc(), EmailOTP.id.desc()).limit(1))
-    if last and (utcnow() - aware(last.created_at)).total_seconds() < settings.otp_resend_cooldown_seconds:
-        raise HTTPException(429, f"Please wait {settings.otp_resend_cooldown_seconds} seconds before requesting another code")
+    if last:
+        elapsed = (utcnow() - aware(last.created_at)).total_seconds()
+        if elapsed < settings.otp_resend_cooldown_seconds:
+            wait_secs = max(1, int(settings.otp_resend_cooldown_seconds - elapsed))
+            raise HTTPException(429, f"Please wait {wait_secs} second{'s' if wait_secs != 1 else ''} before requesting another code")
+
+    # Invalidate prior unconsumed OTPs for this email & purpose
+    db.execute(
+        update(EmailOTP)
+        .where(EmailOTP.email == email, EmailOTP.purpose == data.purpose, EmailOTP.consumed_at.is_(None))
+        .values(consumed_at=utcnow())
+    )
 
     otp = generate_otp()
     db.add(EmailOTP(email=email, purpose=data.purpose, otp_hash=hash_otp(email, data.purpose, otp),
                     expires_at=utcnow() + timedelta(seconds=settings.otp_ttl_seconds)))
     db.commit()
-    background.add_task(email_service.send_otp_email, email, otp, max(1, settings.otp_ttl_seconds // 60))
+    background.add_task(email_service.send_otp_email, email, otp, max(1, settings.otp_ttl_seconds // 60), name=name, club_name=club_name)
     return MessageOut(message="If the details are valid, a verification code has been emailed.")
 
 

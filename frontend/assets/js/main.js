@@ -8,7 +8,7 @@
 
 /* ---------- config & helpers ---------- */
 const API_BASE = window.API_BASE ?? (location.port === '8000' ? '' : 'http://127.0.0.1:8000');
-const CLUBS = ['tech', 'sports', 'culture', 'multimedia'];
+const CLUBS = ['tech', 'sports', 'culture', 'multimedia', 'management'];
 const PAGES = ['home', 'gallery', 'announcements', 'register', 'admin'];
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -184,6 +184,27 @@ document.addEventListener('click', e => {
 /* ---------- registration (all checks happen on the server) ---------- */
 const showStep = n => [1, 2, 3].forEach(i => { $('#reg-' + i).hidden = i !== n; });
 
+let resendTimer = null;
+function startResendTimer(seconds = 60) {
+  if (resendTimer) clearInterval(resendTimer);
+  const rsBtn = $('#rs');
+  if (!rsBtn) return;
+  rsBtn.disabled = true;
+  let remaining = seconds;
+  rsBtn.textContent = `Resend code (${remaining}s)`;
+  resendTimer = setInterval(() => {
+    remaining -= 1;
+    if (remaining <= 0) {
+      clearInterval(resendTimer);
+      resendTimer = null;
+      rsBtn.disabled = false;
+      rsBtn.textContent = 'Resend code';
+    } else {
+      rsBtn.textContent = `Resend code (${remaining}s)`;
+    }
+  }, 1000);
+}
+
 async function step1(e = {}) {
   const y = new Date().getFullYear();
   if (LINK && !S.linkOk) {
@@ -199,34 +220,119 @@ async function step1(e = {}) {
   $('#yr').max = y; $('#yr').value = S.yr || y;
   setSel($('#club'), S.club); $('#club').disabled = !!S.linkOk;
   $('#reg-err').textContent = e.form || '';
-  $('#go').disabled = false;
+  const goBtn = $('#go');
+  goBtn.disabled = false;
+  goBtn.textContent = 'Send OTP';
 }
+
 $('#go').onclick = async () => {
-  S = { ...S, usn: $('#usn').value, nm: $('#nm').value, em: $('#em').value, ph: $('#ph').value, br: $('#br').value, yr: $('#yr').value, club: $('#club').value };
-  $('#go').disabled = true;
+  S = { ...S, usn: $('#usn').value.trim(), nm: $('#nm').value.trim(), em: $('#em').value.trim(), ph: $('#ph').value.trim(), br: $('#br').value, yr: $('#yr').value, club: $('#club').value };
+  if (!S.usn || !S.nm || !S.em || !S.ph) {
+    step1({ form: 'Please fill in all required fields before requesting an OTP.' });
+    return;
+  }
+  const goBtn = $('#go');
+  goBtn.disabled = true;
+  goBtn.textContent = 'Sending OTP...';
   try {
     const p = await api('/api/auth/register', { m: 'POST', body: { usn: S.usn, full_name: S.nm, email: S.em, phone: S.ph, branch: S.br, joining_year: +S.yr, club_slug: S.club, link_token: LINK || null } });
     PEND = p.pending_id;
     await api('/api/auth/send-otp', { m: 'POST', body: { purpose: 'register', pending_id: PEND } });
-    step2('');
-  } catch (x) { step1({ form: x.message }); }
+    step2('Verification code sent! Please check your email inbox and spam folder.', true);
+    startResendTimer(60);
+  } catch (x) {
+    step1({ form: x.message });
+  } finally {
+    goBtn.disabled = false;
+    goBtn.textContent = 'Send OTP';
+  }
 };
 
-function step2(m = '') {
+function step2(m = '', isInitial = false) {
   showStep(2);
-  const isErr = m && m !== 'A new code was sent.', p = $('#otp-msg');
-  $('#otp-email').textContent = S.em; $('#otp').value = '';
-  p.className = isErr ? 'err' : 'note'; p.textContent = m;
+  const p = $('#otp-msg');
+  $('#otp-email').textContent = S.em;
+  if (isInitial) {
+    $('#otp').value = '';
+  }
+  const isErr = m && !m.toLowerCase().includes('sent') && !m.toLowerCase().includes('success');
+  p.className = isErr ? 'err' : 'note';
+  p.textContent = m;
+  setTimeout(() => {
+    const inp = $('#otp');
+    if (inp) inp.focus();
+  }, 60);
 }
-$('#bk').onclick = () => step1();
+
+$('#bk').onclick = () => {
+  if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+  step1();
+};
+
 $('#rs').onclick = async () => {
-  try { await api('/api/auth/send-otp', { m: 'POST', body: { purpose: 'register', pending_id: PEND } }); step2('A new code was sent.'); }
-  catch (x) { step2(x.message); }
+  const rsBtn = $('#rs');
+  rsBtn.disabled = true;
+  rsBtn.textContent = 'Sending...';
+  try {
+    await api('/api/auth/send-otp', { m: 'POST', body: { purpose: 'register', pending_id: PEND } });
+    step2('A new verification code was sent to your email.');
+    startResendTimer(60);
+  } catch (x) {
+    step2(x.message);
+    const match = (x.message || '').match(/(\d+)\s*second/i);
+    if (match) {
+      startResendTimer(parseInt(match[1], 10));
+    } else {
+      rsBtn.disabled = false;
+      rsBtn.textContent = 'Resend code';
+    }
+  }
 };
-$('#vf').onclick = async () => {
-  try { step3(await api('/api/auth/verify-otp', { m: 'POST', body: { pending_id: PEND, otp: $('#otp').value.trim() } })); }
-  catch (x) { step2(x.message); }
-};
+
+async function doVerify() {
+  const raw = ($('#otp').value || '').replace(/\D/g, '').trim();
+  if (raw.length !== 6) {
+    step2('Please enter the complete 6-digit verification code.');
+    $('#otp').focus();
+    return;
+  }
+  const vfBtn = $('#vf');
+  if (vfBtn.disabled) return;
+  vfBtn.disabled = true;
+  vfBtn.textContent = 'Verifying...';
+  try {
+    const res = await api('/api/auth/verify-otp', { m: 'POST', body: { pending_id: PEND, otp: raw } });
+    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+    step3(res);
+  } catch (x) {
+    step2(x.message);
+    $('#otp').select();
+  } finally {
+    vfBtn.disabled = false;
+    vfBtn.textContent = 'Verify';
+  }
+}
+
+$('#vf').onclick = doVerify;
+
+const otpInp = $('#otp');
+if (otpInp) {
+  otpInp.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doVerify();
+    }
+  });
+  otpInp.addEventListener('input', (e) => {
+    const clean = e.target.value.replace(/\D/g, '').slice(0, 6);
+    if (e.target.value !== clean) {
+      e.target.value = clean;
+    }
+    if (clean.length === 6) {
+      doVerify();
+    }
+  });
+}
 
 function step3(r) {
   const m = r.membership;
@@ -241,26 +347,82 @@ $('#again').onclick = () => { S = {}; PEND = null; step1(); };
 /* ---------- admin (every call is checked by the server) ---------- */
 const memberRows = l => l.map(r => `<tr><td>${esc(r.membership_code)}</td><td>${esc(r.usn)}</td><td>${esc(r.full_name)}</td><td>${esc(r.branch)}</td><td>${esc(r.club_name)}</td><td><select data-ms="${r.membership_id}" aria-label="Status">${['active', 'pending', 'suspended'].map(s => `<option ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td><td><button class="chip danger" data-act="md" data-id="${r.membership_id}">Delete</button></td></tr>`).join('') || '<tr><td colspan="7">No members yet.</td></tr>';
 
-async function renderAdmin(m = '') {
+let PH_ITEMS = [];
+
+function clearFilePreview() {
+  const pf = $('#pf'), prev = $('#pf-preview'), img = $('#pf-preview-img');
+  if (pf) pf.value = '';
+  if (prev) prev.hidden = true;
+  if (img) img.src = '';
+}
+
+function initPhotoPreview() {
+  const pf = $('#pf'), prev = $('#pf-preview'), img = $('#pf-preview-img'),
+        nEl = $('#pf-preview-name'), sEl = $('#pf-preview-size'), clr = $('#pf-clear');
+  if (!pf) return;
+  pf.addEventListener('change', () => {
+    const fl = pf.files[0];
+    if (!fl) { clearFilePreview(); return; }
+    if (!fl.type.startsWith('image/')) {
+      alert('Selected file is not an image.');
+      clearFilePreview();
+      return;
+    }
+    if (fl.size > 5 * 1024 * 1024) {
+      alert('Image size exceeds 5MB limit. Please choose a smaller image.');
+      clearFilePreview();
+      return;
+    }
+    if (nEl) nEl.textContent = fl.name;
+    const sz = fl.size > 1024 * 1024 ? (fl.size / (1024 * 1024)).toFixed(2) + ' MB' : (fl.size / 1024).toFixed(1) + ' KB';
+    if (sEl) sEl.textContent = sz;
+    const rdr = new FileReader();
+    rdr.onload = ev => { if (img) img.src = ev.target.result; if (prev) prev.hidden = false; };
+    rdr.readAsDataURL(fl);
+  });
+  if (clr) clr.onclick = () => clearFilePreview();
+}
+
+async function renderAdmin(err = '', success = '') {
   if (cur !== 'admin') return;
   const login = $('#admin-login'), dash = $('#admin-dash');
 
-  if (!admin) { try { admin = await api('/api/admin/me'); saveCsrf(admin.csrf_token); } catch (e) { admin = null; } }
+  if (!admin) {
+    try { admin = await api('/api/admin/me'); saveCsrf(admin.csrf_token); }
+    catch (e) { admin = null; }
+  }
   if (!admin) {
     dash.hidden = true; login.hidden = false;
-    $('#au').value = ''; $('#ap').value = ''; $('#al-err').textContent = m;
+    $('#au').value = ''; $('#ap').value = ''; $('#al-err').textContent = err;
     return;
   }
 
-  let D, AN, LK, ST, PH;
-  try { [D, AN, LK, ST, PH] = await Promise.all([api('/api/admin/dashboard'), api('/api/admin/announcements'), api('/api/admin/registration-links'), api('/api/admin/students?page_size=100'), api('/api/gallery?page_size=24')]); }
-  catch (x) { admin = null; return renderAdmin('Session expired. Please sign in again.'); }
+  let D, AN, LK, PH;
+  try {
+    [D, AN, LK, PH] = await Promise.all([
+      api('/api/admin/dashboard'),
+      api('/api/admin/announcements'),
+      api('/api/admin/registration-links'),
+      api('/api/gallery?page_size=36')
+    ]);
+  } catch (x) {
+    admin = null;
+    return renderAdmin('Session expired. Please sign in again.');
+  }
 
   login.hidden = true; dash.hidden = false;
-  // clear the forms (same as a fresh render)
-  $$('input, textarea', dash).forEach(i => { i.value = ''; });
-  ['nc', 'pc', 'lc'].forEach(id => { $('#' + id).selectedIndex = 0; });
-  $('#am').textContent = '';
+  PH_ITEMS = PH.items || [];
+
+  if (success) {
+    $$('input:not(#sq), textarea', dash).forEach(i => { i.value = ''; });
+    ['nc', 'pc', 'lc'].forEach(id => { const el = $('#' + id); if (el) el.selectedIndex = 0; });
+    clearFilePreview();
+  }
+
+  const amMsg = $('#am-msg');
+  if (amMsg) { amMsg.hidden = !success; amMsg.textContent = success || ''; }
+  const amErr = $('#am');
+  if (amErr) { amErr.hidden = !err; amErr.textContent = err || ''; }
 
   $('#adm-user').textContent = `${admin.username} (${admin.role})`;
   $('#st-students').textContent = D.total_students;
@@ -268,56 +430,202 @@ async function renderAdmin(m = '') {
   $('#st-news').textContent = D.published_announcements;
   $('#st-photos').textContent = D.photos;
 
-  $('#an-list').innerHTML = AN.map(n => `<div class="row"><span>${esc(n.title)} <small>(${esc(n.club_name || 'All')})</small></span><span><button class="chip" data-act="nt" data-id="${n.id}" data-pub="${n.published}">${n.published ? 'Unpublish' : 'Publish'}</button> <button class="chip danger" data-act="nd" data-id="${n.id}">Delete</button></span></div>`).join('');
-  $('#ph-list').innerHTML = PH.items.map(u => `<div class="row"><span>${esc(u.title)} <small>(${esc(u.club_name)})</small></span><button class="chip danger" data-act="pd" data-id="${u.id}">Delete</button></div>`).join('');
-  $('#lk-list').innerHTML = LK.map(l => `<div class="row"><span><code>${esc(l.url)}</code> <small>(${esc(l.title)})</small></span><span><button class="chip" data-act="lt2" data-id="${l.id}" data-on="${l.active}">${l.active ? 'Disable' : 'Enable'}</button> <button class="chip danger" data-act="ld" data-id="${l.id}">Delete</button></span></div>`).join('');
-  $('#mem-count').textContent = ST.total;
-  $('#tb').innerHTML = memberRows(ST.items);
+  $('#an-list').innerHTML = AN.map(n => `<div class="row"><span>${esc(n.title)} <small>(${esc(n.club_name || 'All')})</small></span><span><button class="chip" data-act="nt" data-id="${n.id}" data-pub="${n.published}">${n.published ? 'Unpublish' : 'Publish'}</button> <button class="chip danger" data-act="nd" data-id="${n.id}">Delete</button></span></div>`).join('') || '<p style="color:var(--muted);margin:8px 0;">No announcements published.</p>';
+
+  const phCount = $('#ph-count');
+  if (phCount) phCount.textContent = PH.total ?? PH_ITEMS.length;
+
+  $('#lk-list').innerHTML = LK.map(l => `<div class="row"><span><code>${esc(l.url)}</code> <small>(${esc(l.title)})</small></span><span><button class="chip" data-act="lt2" data-id="${l.id}" data-on="${l.active}">${l.active ? 'Disable' : 'Enable'}</button> <button class="chip danger" data-act="ld" data-id="${l.id}">Delete</button></span></div>`).join('') || '<p style="color:var(--muted);margin:8px 0;">No active registration links.</p>';
 }
 
-$('#export').href = API_BASE + '/api/admin/students/export';
+let adminPhFilter = 'all', adminPg = 0;
 
-$('#al').onclick = async () => {
-  try { admin = await api('/api/admin/login', { m: 'POST', body: { username: $('#au').value, password: $('#ap').value } }); saveCsrf(admin.csrf_token); renderAdmin(); }
-  catch (x) { renderAdmin(x.message); }
-};
+async function renderAdminPhotos(err = '', success = '') {
+  // admin-photos is now a standalone page (admin-photos.html).
+  // This stub exists only as a safety guard if the hash '#admin-photos' is somehow typed.
+  window.location.href = 'admin-photos.html';
+}
+
+const expBtn = $('#export');
+if (expBtn) expBtn.href = API_BASE + '/api/admin/students/export';
+
+async function doAdminLogin() {
+  const u = $('#au').value.trim(), p = $('#ap').value;
+  if (!u || !p) {
+    $('#al-err').textContent = 'Please enter both username and password.';
+    return;
+  }
+  const btn = $('#al');
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+  $('#al-err').textContent = '';
+  try {
+    admin = await api('/api/admin/login', { m: 'POST', body: { username: u, password: p } });
+    saveCsrf(admin.csrf_token);
+    await renderAdmin();
+  } catch (x) {
+    renderAdmin(x.message || 'Login failed.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+  }
+}
+
+$('#al').onclick = doAdminLogin;
+['au', 'ap'].forEach(id => {
+  const el = $('#' + id);
+  if (el) {
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doAdminLogin();
+      }
+    });
+  }
+});
 
 const dash = $('#admin-dash');
-const run = async fn => {
-  try { await fn(); renderAdmin(); }
-  catch (x) { if (x.status === 401) { admin = null; renderAdmin('Session expired.'); } else $('#am').textContent = x.message; }
+const run = async (fn, okMsg = '') => {
+  try {
+    await fn();
+    if (cur === 'admin-photos') renderAdminPhotos('', okMsg);
+    else renderAdmin('', okMsg);
+  } catch (x) {
+    if (x.status === 401) { admin = null; location.hash = '#admin'; }
+    else {
+      const errEl = cur === 'admin-photos' ? $('#am-photos-err') : $('#am');
+      if (errEl) { errEl.hidden = false; errEl.textContent = x.message; }
+    }
+  }
 };
 const v = s => $(s).value.trim();
 
 let tm;
-$('#sq').oninput = e => {
-  clearTimeout(tm);
-  tm = setTimeout(async () => { try { $('#tb').innerHTML = memberRows((await api('/api/admin/students?page_size=100&q=' + encodeURIComponent(e.target.value))).items); } catch (x) { } }, 300);
-};
+const sq = $('#sq');
+if (sq) {
+  sq.oninput = e => {
+    clearTimeout(tm);
+    tm = setTimeout(async () => {
+      const tb = $('#tb');
+      if (tb) {
+        try { tb.innerHTML = memberRows((await api('/api/admin/students?page_size=100&q=' + encodeURIComponent(e.target.value))).items); } catch (x) { }
+      }
+    }, 300);
+  };
+}
+
 dash.addEventListener('change', e => {
   const s = e.target.closest('[data-ms]');
-  if (s) run(() => api('/api/admin/memberships/' + s.dataset.ms, { m: 'PATCH', body: { status: s.value } }));
-});
-dash.addEventListener('click', e => {
-  const b = e.target.closest('[data-act]'); if (!b) return;
-  const id = b.dataset.id;
-  ({
-    lo: () => run(async () => { await api('/api/admin/logout', { m: 'POST' }); admin = null; saveCsrf(''); }),
-    np: () => run(() => api('/api/admin/announcements', { m: 'POST', body: { title: v('#nt'), message: v('#nm2'), club_slug: $('#nc').value || null, published: true } })),
-    nt: () => run(() => api('/api/admin/announcements/' + id, { m: 'PATCH', body: { published: b.dataset.pub !== 'true' } })),
-    nd: () => run(() => { if (confirm('Delete this announcement?')) return api('/api/admin/announcements/' + id, { m: 'DELETE' }); }),
-    pu: () => run(() => {
-      const fl = $('#pf').files[0]; if (!fl) throw new Error('Choose an image first.');
-      const fd = new FormData(); fd.append('club_slug', $('#pc').value); fd.append('title', v('#pt')); fd.append('event_name', v('#pe')); fd.append('file', fl);
-      return api('/api/admin/photos', { m: 'POST', form: fd });
-    }),
-    pd: () => run(() => { if (confirm('Delete this photo?')) return api('/api/admin/photos/' + id, { m: 'DELETE' }); }),
-    lk: () => run(() => { const d = $('#le').value; return api('/api/admin/registration-links', { m: 'POST', body: { club_slug: $('#lc').value, title: v('#lt') || 'Registration link', ends_at: d ? new Date(d + 'T23:59:59').toISOString() : null } }); }),
-    lt2: () => run(() => api('/api/admin/registration-links/' + id, { m: 'PATCH', body: { active: b.dataset.on !== 'true' } })),
-    ld: () => run(() => { if (confirm('Delete this registration link?')) return api('/api/admin/registration-links/' + id, { m: 'DELETE' }); }),
-    md: () => run(() => { if (confirm('Delete this club member?')) return api('/api/admin/memberships/' + id, { m: 'DELETE' }); })
-  })[b.dataset.act]();
+  if (s) run(() => api('/api/admin/memberships/' + s.dataset.ms, { m: 'PATCH', body: { status: s.value } }), 'Membership status updated.');
 });
 
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = b.dataset.id;
+  const act = b.dataset.act;
+
+  if (act === 'lo') {
+    run(async () => { await api('/api/admin/logout', { m: 'POST' }); admin = null; saveCsrf(''); });
+    return;
+  }
+  if (act === 'pv') {
+    const u = PH_ITEMS.find(x => x.id == id);
+    if (u) {
+      openDialog(u.title, { img: assetUrl(u.image_url), sub: `${u.club_name} Club${u.event_name ? ' · ' + u.event_name : ''}` });
+    }
+    return;
+  }
+  if (act === 'np') {
+    const t = v('#nt'), m = v('#nm2');
+    if (!t) { $('#am').hidden = false; $('#am').textContent = 'Please enter an announcement title.'; return; }
+    run(() => api('/api/admin/announcements', { m: 'POST', body: { title: t, message: m, club_slug: $('#nc').value || null, published: true } }), 'Announcement published.');
+    return;
+  }
+  if (act === 'nt') {
+    run(() => api('/api/admin/announcements/' + id, { m: 'PATCH', body: { published: b.dataset.pub !== 'true' } }), 'Announcement updated.');
+    return;
+  }
+  if (act === 'nd') {
+    if (confirm('Delete this announcement?')) run(() => api('/api/admin/announcements/' + id, { m: 'DELETE' }), 'Announcement deleted.');
+    return;
+  }
+  if (act === 'pu') {
+    const fl = $('#pf').files[0];
+    if (!fl) { $('#am').hidden = false; $('#am').textContent = 'Please choose an image first.'; return; }
+    const title = v('#pt');
+    if (!title) { $('#am').hidden = false; $('#am').textContent = 'Please enter a title for the photo.'; $('#pt').focus(); return; }
+    const btn = $('#btn-upload') || b;
+    btn.disabled = true;
+    btn.textContent = 'Uploading photo...';
+    $('#am').hidden = true;
+
+    const fd = new FormData();
+    fd.append('club_slug', $('#pc').value);
+    fd.append('title', title);
+    fd.append('event_name', v('#pe'));
+    fd.append('file', fl);
+
+    api('/api/admin/photos', { m: 'POST', form: fd })
+      .then(async uploaded => {
+        try {
+          GAL = await api(`/api/gallery?page=1&page_size=8${f === 'all' ? '' : '&club=' + f}`);
+          if (cur === 'gallery') renderGallery();
+        } catch (_) {}
+        await renderAdmin('', `Photo "${uploaded.title}" uploaded successfully to ${uploaded.club_name} Club!`);
+      })
+      .catch(x => {
+        if (x.status === 401) { admin = null; location.hash = '#admin'; }
+        else { $('#am').hidden = false; $('#am').textContent = x.message || 'Upload failed.'; }
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.textContent = 'Upload to Gallery';
+      });
+    return;
+  }
+  if (act === 'pd') {
+    if (confirm('Are you sure you want to permanently delete this photo from the gallery?')) {
+      api('/api/admin/photos/' + id, { m: 'DELETE' })
+        .then(async () => {
+          try {
+            GAL = await api(`/api/gallery?page=1&page_size=8${f === 'all' ? '' : '&club=' + f}`);
+            if (cur === 'gallery') renderGallery();
+          } catch (_) {}
+          if (cur === 'admin-photos') {
+            await renderAdminPhotos('', 'Photo deleted successfully.');
+          } else {
+            await renderAdmin('', 'Photo deleted successfully.');
+          }
+        })
+        .catch(x => {
+          if (x.status === 401) { admin = null; location.hash = '#admin'; }
+          else {
+            const errEl = cur === 'admin-photos' ? $('#am-photos-err') : $('#am');
+            if (errEl) { errEl.hidden = false; errEl.textContent = x.message; }
+          }
+        });
+    }
+    return;
+  }
+  if (act === 'lk') {
+    const d = $('#le').value;
+    run(() => api('/api/admin/registration-links', { m: 'POST', body: { club_slug: $('#lc').value, title: v('#lt') || 'Registration link', ends_at: d ? new Date(d + 'T23:59:59').toISOString() : null } }), 'Registration link generated.');
+    return;
+  }
+  if (act === 'lt2') {
+    run(() => api('/api/admin/registration-links/' + id, { m: 'PATCH', body: { active: b.dataset.on !== 'true' } }), 'Link status changed.');
+    return;
+  }
+  if (act === 'ld') {
+    if (confirm('Delete this registration link?')) run(() => api('/api/admin/registration-links/' + id, { m: 'DELETE' }), 'Registration link deleted.');
+    return;
+  }
+  if (act === 'md') {
+    if (confirm('Delete this club member?')) run(() => api('/api/admin/memberships/' + id, { m: 'DELETE' }), 'Member removed.');
+    return;
+  }
+});
+
+initPhotoPreview();
 route();
 })();

@@ -1,282 +1,464 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>VTU Clubs</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <title>VTU Clubs</title>
+     <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
 
-<!-- ============================ HEADER / NAV ============================ -->
-<header><div class="wrap"><div class="bar">
- <a class="brand" href="#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp" alt="VTU logo"><span>VTU Clubs<small>Visvesvaraya Technological University</small></span></a>
- <button id="menu" class="btn ghost" aria-expanded="false" aria-controls="nav">Menu</button>
- <nav id="nav" aria-label="Main"><a href="#home">Home</a><a href="#gallery">Gallery</a><a href="#announcements">Announcements</a><a href="#register">Register</a><a href="#admin">Admin</a></nav>
-</div></div></header>
+     <!-- ============================ HEADER / NAV ============================ -->
+     <header>
+          <div class="wrap">
+               <div class="bar">
+                    <a class="brand" href="#home" aria-label="VTU Clubs home"><img src="assets/images/logo.webp"
+                              alt="VTU logo"><span><small>Visvesvaraya Technological University Kalaburagi</small>Club
+                              house</span></a>
+                    <button id="menu" class="btn ghost" aria-expanded="false" aria-controls="nav">Menu</button>
+                    <nav id="nav" aria-label="Main"><a href="#home">Home</a><a href="#gallery">Gallery</a><a
+                              href="#announcements">Announcements</a><a href="#register">Register</a><a
+                              href="#admin">Admin</a></nav>
+               </div>
+          </div>
+     </header>
 
-<!--
+     <!--
   PAGES
   Every page is a <div class="page" data-page="NAME">. The router in main.js shows the one that
   matches the URL hash (#home, #gallery ...). Club pages are separate files: tech.html, sports.html, culture.html, multimedia.html and hides the rest.
   Anything marked "FILLED BY main.js" is loaded from the API; everything else is plain HTML you can edit.
 -->
-<main id="app">
+     <main id="app">
 
-<!-- ============================== HOME ============================== -->
-<div class="page" data-page="home">
- <div class="hero">
-  <div class="bg" id="bg"></div>
-  <canvas id="gl" aria-hidden="true"></canvas>
-  <div class="wrap">
-   <h1>Join. Create. <span>Shine</span> at VTU.</h1>
-   <p class="l">Four clubs, one campus. Spin the ring and pick yours.</p>
+          <!-- ============================== HOME ============================== -->
+          <div class="page" data-page="home">
+               <div class="hero">
+                    <div class="bg" id="bg"></div>
+                    <canvas id="gl" aria-hidden="true"></canvas>
+                    <div class="wrap">
+                         <!-- College bar: leader photo | scrolling college name | leader photo. Both photos float. -->
+                         <div class="college-bar">
+                              <img class="leader left" src="assets/images/vcsir.png" alt="Vice Chancellor">
+                              <p>Honerable vice Chancellor<br>Prof. Vidyashankar S</p>
+                              <!-- College name line: scrolls right to left. To change the text, edit it in all 4 spans (the copies make the loop seamless). -->
+                              <div class="college-marquee" role="marquee"
+                                   aria-label="Visvesvaraya Technological University, Center for UG &amp; PG Studies, Regional Office, Kusnoor Road, Kalaburagi, 585-105">
+                                   <div class="cm-track" aria-hidden="true">
+                                        <span>VISVESVARAYA TECHNOLOGICAL UNIVERSITY CENTER FOR UG &amp; PG STUDIES,
+                                             REGIONAL OFFICE, KUSNOOR ROAD, KALABURAGI, 585-105</span>
+                                        <span>VISVESVARAYA TECHNOLOGICAL UNIVERSITY CENTER FOR UG &amp; PG STUDIES,
+                                             REGIONAL OFFICE, KUSNOOR ROAD, KALABURAGI, 585-105</span>
+                                        <span>VISVESVARAYA TECHNOLOGICAL UNIVERSITY CENTER FOR UG &amp; PG STUDIES,
+                                             REGIONAL OFFICE, KUSNOOR ROAD, KALABURAGI, 585-105</span>
+                                        <span>VISVESVARAYA TECHNOLOGICAL UNIVERSITY CENTER FOR UG &amp; PG STUDIES,
+                                             REGIONAL OFFICE, KUSNOOR ROAD, KALABURAGI, 585-105</span>
+                                   </div>
+                              </div>
+                         </div>
 
-   <!-- 3D club ring: --i is the position (0,1,2,3). Keep 4 faces. -->
-   <div class="stage"><div class="ring">
-    <a class="face" style="--i:0" href="tech.html" aria-label="Tech Club"><img src="assets/images/tech.png" alt="Tech Club badge"></a>
-    <a class="face" style="--i:1" href="sports.html" aria-label="Sports Club"><img src="assets/images/sports.webp" alt="Sports Club badge"></a>
-    <a class="face" style="--i:2" href="culture.html" aria-label="Culture Club"><img src="assets/images/culture.webp" alt="Culture Club badge"></a>
-    <a class="face" style="--i:3" href="multimedia.html" aria-label="Multi Media Club"><img src="assets/images/multimedia.webp" alt="Multi Media Club badge"></a>
-   </div></div>
+                         <h1>Join. Create. <span>Shine</span> at VTU Kalaburagi.</h1>
+                         <p class="l">Five clubs, one campus. Spin the ring and pick yours.</p>
 
-   <a class="btn" href="#register">Register now</a> <a class="btn ghost" href="#gallery">Gallery</a>
-  </div>
+                         <!-- 3D club ring: --i is the position (0,1,2,3,4). Keep 5 faces: the CSS spaces them 72deg apart (see .ring / .face in style.css). -->
+                         <div class="stage">
+                              <div class="ring">
+                                   <a class="face" style="--i:0" href="tech.html" aria-label="Tech Club"><img
+                                             src="assets/images/tech.png" alt="Tech Club badge"></a>
+                                   <a class="face" style="--i:1" href="sports.html" aria-label="Sports Club"><img
+                                             src="assets/images/sports.png" alt="Sports Club badge"></a>
+                                   <a class="face" style="--i:2" href="culture.html" aria-label="Culture Club"><img
+                                             src="assets/images/culture.jpeg" alt="Culture Club badge"></a>
+                                   <a class="face" style="--i:3" href="multimedia.html"
+                                        aria-label="Multi Media Club"><img src="assets/images/media.png"
+                                             alt="Multi Media Club badge"></a>
+                                   <a class="face" style="--i:4" href="management.html"
+                                        aria-label="Management Club"><img src="assets/images/management.png"
+                                             alt="Management Club badge"></a>
+                              </div>
+                         </div>
 
-  <!-- News ticker. The track below is FILLED BY main.js from /api/announcements; this text is the fallback. -->
-  <div class="ticker" tabindex="0" role="region" aria-label="Announcements">
-   <b>NEWS</b>
-   <div class="track" id="ticker-track"><span>LAUNCHING ON 23RD NOVEMBER</span></div>
-  </div>
- </div>
+                         <a class="btn" href="#register">Register now</a> <a class="btn ghost"
+                              href="#gallery">Gallery</a>
+                    </div>
 
- <section class="s"><div class="wrap">
-  <h2>Our Clubs</h2>
-  <p class="sub">Each club has its own page with activities, events and registration.</p>
-  <div class="g4">
-   <a class="card tilt" href="tech.html"><img src="assets/images/tech.png" alt="Tech Club badge"><h3>Tech Club</h3><p>Hackathons, coding contests, robotics and AI/ML workshops for builders.</p></a>
-   <a class="card tilt" href="sports.html"><img src="assets/images/sports.webp" alt="Sports Club badge"><h3>Sports Club</h3><p>Inter-college tournaments, fitness drives and team training.</p></a>
-   <a class="card tilt" href="culture.html"><img src="assets/images/culture.webp" alt="Culture Club badge"><h3>Culture Club</h3><p>Music, dance, drama and celebrations of Indian heritage.</p></a>
-   <a class="card tilt" href="multimedia.html"><img src="assets/images/multimedia.webp" alt="Multi Media Club badge"><h3>Multi Media Club</h3><p>Photography, film-making, design and event coverage.</p></a>
-  </div>
- </div></section>
-</div>
+                    <!-- News ticker. The track below is FILLED BY main.js from /api/announcements; this text is the fallback. -->
+                    <div class="ticker" tabindex="0" role="region" aria-label="Announcements">
+                         <b>NEWS</b>
+                         <div class="track" id="ticker-track"><span>LAUNCHING ON 23RD NOVEMBER</span></div>
+                    </div>
+               </div>
+
+               <section class="s clubs">
+                    <div class="wrap">
+                         <!-- Background image comes from --clubs-bg in style.css (campus2.jpg). No image tag needed here. -->
+                         <h2>Our Clubs</h2>
+                         <p class="sub">Each club has its own page with activities, events and registration.</p>
+                         <div class="g5">
+                              <a class="card tilt" href="tech.html"><img src="assets/images/tech.png"
+                                        alt="Tech Club badge">
+                                   <h3>Tech Club</h3>
+                                   <p>Hackathons, coding contests, robotics and AI/ML workshops for builders.</p>
+                              </a>
+                              <a class="card tilt" href="sports.html"><img src="assets/images/sports.png"
+                                        alt="Sports Club badge">
+                                   <h3>Sports Club</h3>
+                                   <p>Inter-college tournaments, fitness drives and team training.</p>
+                              </a>
+                              <a class="card tilt" href="culture.html"><img src="assets/images/culture.jpeg"
+                                        alt="Culture Club badge">
+                                   <h3>Culture Club</h3>
+                                   <p>Music, dance, drama and celebrations of Indian heritage.</p>
+                              </a>
+                              <a class="card tilt" href="multimedia.html"><img src="assets/images/media.png"
+                                        alt="Multi Media Club badge">
+                                   <h3>Multi Media Club</h3>
+                                   <p>Photography, film-making, design and event coverage.</p>
+                              </a>
+                              <a class="card tilt" href="management.html"><img src="assets/images/management.png"
+                                        alt="Management Club badge">
+                                   <h3>Management Club</h3>
+                                   <p>Finance, marketing, HR and innovation to learn, lead and manage.</p>
+                              </a>
+                         </div>
+                    </div>
+               </section>
+          </div>
 
 
-<!-- ============================== GALLERY ============================== -->
-<div class="page" data-page="gallery">
- <div class="wrap top">
-  <h2>Gallery</h2>
-  <p class="sub">Moments from all four clubs. Open any photo for a large preview.</p>
+          <!-- ============================== GALLERY ============================== -->
+          <div class="page" data-page="gallery">
+               <div class="wrap top">
+                    <h2>Gallery</h2>
+                    <p class="sub">Moments from all five clubs. Open any photo for a large preview.</p>
 
-  <div class="filters" role="group" aria-label="Filter by club">
-   <button class="chip" data-f="all" aria-pressed="true">All</button>
-   <button class="chip" data-f="tech" aria-pressed="false">Tech-Kosh</button>
-   <button class="chip" data-f="sports" aria-pressed="false">Sports</button>
-   <button class="chip" data-f="culture" aria-pressed="false">Culture</button>
-   <button class="chip" data-f="multimedia" aria-pressed="false">Multi Media</button>
-  </div>
+                    <div class="filters" role="group" aria-label="Filter by club">
+                         <button class="chip" data-f="all" aria-pressed="true">All</button>
+                         <button class="chip" data-f="tech" aria-pressed="false">Tech-Kosh</button>
+                         <button class="chip" data-f="sports" aria-pressed="false">Sports</button>
+                         <button class="chip" data-f="culture" aria-pressed="false">Culture</button>
+                         <button class="chip" data-f="multimedia" aria-pressed="false">Multi Media</button>
+                         <button class="chip" data-f="management" aria-pressed="false">Management</button>
+                    </div>
 
-  <!-- Sample artwork: shown only while admins have not uploaded real photos (max 8 per filter).
+                    <!-- Sample artwork: shown only while admins have not uploaded real photos (max 8 per filter).
        data-k = club, data-im = which campus image variable, data-pos = crop position. -->
-  <div class="grid" id="gal-sample">
-   <button class="ph tilt" data-k="tech" data-title="Tech · Opening day" data-im="--p1" data-pos="0% 15%" style="background-image:var(--p1);background-position:0% 15%" aria-label="Open Tech · Opening day"><span>Tech · Opening day</span></button>
-   <button class="ph tilt" data-k="tech" data-title="Tech · Workshop" data-im="--p2" data-pos="12% 5%" style="background-image:var(--p2);background-position:12% 5%" aria-label="Open Tech · Workshop"><span>Tech · Workshop</span></button>
-   <button class="ph tilt" data-k="tech" data-title="Tech · Finals" data-im="--p1" data-pos="4% 30%" style="background-image:var(--p1);background-position:4% 30%" aria-label="Open Tech · Finals"><span>Tech · Finals</span></button>
-   <button class="ph tilt" data-k="tech" data-title="Tech · Showcase" data-im="--p2" data-pos="16% 18%" style="background-image:var(--p2);background-position:16% 18%" aria-label="Open Tech · Showcase"><span>Tech · Showcase</span></button>
+                    <div class="grid" id="gal-sample">
+                         <button class="ph tilt" data-k="tech" data-title="Tech · Opening day" data-im="--p1"
+                              data-pos="0% 15%" style="background-image:var(--p1);background-position:0% 15%"
+                              aria-label="Open Tech · Opening day"><span>Tech · Opening day</span></button>
+                         <button class="ph tilt" data-k="tech" data-title="Tech · Workshop" data-im="--p2"
+                              data-pos="12% 5%" style="background-image:var(--p2);background-position:12% 5%"
+                              aria-label="Open Tech · Workshop"><span>Tech · Workshop</span></button>
+                         <button class="ph tilt" data-k="tech" data-title="Tech · Finals" data-im="--p1"
+                              data-pos="4% 30%" style="background-image:var(--p1);background-position:4% 30%"
+                              aria-label="Open Tech · Finals"><span>Tech · Finals</span></button>
+                         <button class="ph tilt" data-k="tech" data-title="Tech · Showcase" data-im="--p2"
+                              data-pos="16% 18%" style="background-image:var(--p2);background-position:16% 18%"
+                              aria-label="Open Tech · Showcase"><span>Tech · Showcase</span></button>
 
-   <button class="ph tilt" data-k="sports" data-title="Sports · Opening day" data-im="--p2" data-pos="0% 95%" style="background-image:var(--p2);background-position:0% 95%" aria-label="Open Sports · Opening day"><span>Sports · Opening day</span></button>
-   <button class="ph tilt" data-k="sports" data-title="Sports · Workshop" data-im="--p1" data-pos="10% 90%" style="background-image:var(--p1);background-position:10% 90%" aria-label="Open Sports · Workshop"><span>Sports · Workshop</span></button>
-   <button class="ph tilt" data-k="sports" data-title="Sports · Finals" data-im="--p2" data-pos="18% 100%" style="background-image:var(--p2);background-position:18% 100%" aria-label="Open Sports · Finals"><span>Sports · Finals</span></button>
-   <button class="ph tilt" data-k="sports" data-title="Sports · Showcase" data-im="--p1" data-pos="6% 80%" style="background-image:var(--p1);background-position:6% 80%" aria-label="Open Sports · Showcase"><span>Sports · Showcase</span></button>
+                         <button class="ph tilt" data-k="sports" data-title="Sports · Opening day" data-im="--p2"
+                              data-pos="0% 95%" style="background-image:var(--p2);background-position:0% 95%"
+                              aria-label="Open Sports · Opening day"><span>Sports · Opening day</span></button>
+                         <button class="ph tilt" data-k="sports" data-title="Sports · Workshop" data-im="--p1"
+                              data-pos="10% 90%" style="background-image:var(--p1);background-position:10% 90%"
+                              aria-label="Open Sports · Workshop"><span>Sports · Workshop</span></button>
+                         <button class="ph tilt" data-k="sports" data-title="Sports · Finals" data-im="--p2"
+                              data-pos="18% 100%" style="background-image:var(--p2);background-position:18% 100%"
+                              aria-label="Open Sports · Finals"><span>Sports · Finals</span></button>
+                         <button class="ph tilt" data-k="sports" data-title="Sports · Showcase" data-im="--p1"
+                              data-pos="6% 80%" style="background-image:var(--p1);background-position:6% 80%"
+                              aria-label="Open Sports · Showcase"><span>Sports · Showcase</span></button>
 
-   <button class="ph tilt" data-k="culture" data-title="Culture · Opening day" data-im="--p1" data-pos="100% 10%" style="background-image:var(--p1);background-position:100% 10%" aria-label="Open Culture · Opening day"><span>Culture · Opening day</span></button>
-   <button class="ph tilt" data-k="culture" data-title="Culture · Workshop" data-im="--p2" data-pos="90% 30%" style="background-image:var(--p2);background-position:90% 30%" aria-label="Open Culture · Workshop"><span>Culture · Workshop</span></button>
-   <button class="ph tilt" data-k="culture" data-title="Culture · Finals" data-im="--p1" data-pos="96% 4%" style="background-image:var(--p1);background-position:96% 4%" aria-label="Open Culture · Finals"><span>Culture · Finals</span></button>
-   <button class="ph tilt" data-k="culture" data-title="Culture · Showcase" data-im="--p2" data-pos="84% 22%" style="background-image:var(--p2);background-position:84% 22%" aria-label="Open Culture · Showcase"><span>Culture · Showcase</span></button>
+                         <button class="ph tilt" data-k="culture" data-title="Culture · Opening day" data-im="--p1"
+                              data-pos="100% 10%" style="background-image:var(--p1);background-position:100% 10%"
+                              aria-label="Open Culture · Opening day"><span>Culture · Opening day</span></button>
+                         <button class="ph tilt" data-k="culture" data-title="Culture · Workshop" data-im="--p2"
+                              data-pos="90% 30%" style="background-image:var(--p2);background-position:90% 30%"
+                              aria-label="Open Culture · Workshop"><span>Culture · Workshop</span></button>
+                         <button class="ph tilt" data-k="culture" data-title="Culture · Finals" data-im="--p1"
+                              data-pos="96% 4%" style="background-image:var(--p1);background-position:96% 4%"
+                              aria-label="Open Culture · Finals"><span>Culture · Finals</span></button>
+                         <button class="ph tilt" data-k="culture" data-title="Culture · Showcase" data-im="--p2"
+                              data-pos="84% 22%" style="background-image:var(--p2);background-position:84% 22%"
+                              aria-label="Open Culture · Showcase"><span>Culture · Showcase</span></button>
 
-   <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Opening day" data-im="--p2" data-pos="100% 95%" style="background-image:var(--p2);background-position:100% 95%" aria-label="Open Multi Media · Opening day"><span>Multi Media · Opening day</span></button>
-   <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Workshop" data-im="--p1" data-pos="90% 85%" style="background-image:var(--p1);background-position:90% 85%" aria-label="Open Multi Media · Workshop"><span>Multi Media · Workshop</span></button>
-   <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Finals" data-im="--p2" data-pos="100% 70%" style="background-image:var(--p2);background-position:100% 70%" aria-label="Open Multi Media · Finals"><span>Multi Media · Finals</span></button>
-   <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Showcase" data-im="--p1" data-pos="82% 100%" style="background-image:var(--p1);background-position:82% 100%" aria-label="Open Multi Media · Showcase"><span>Multi Media · Showcase</span></button>
-  </div>
-  <p class="sub" id="gal-note" style="margin-top:18px">Sample artwork is shown until admins upload real photos.</p>
+                         <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Opening day"
+                              data-im="--p2" data-pos="100% 95%"
+                              style="background-image:var(--p2);background-position:100% 95%"
+                              aria-label="Open Multi Media · Opening day"><span>Multi Media · Opening
+                                   day</span></button>
+                         <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Workshop" data-im="--p1"
+                              data-pos="90% 85%" style="background-image:var(--p1);background-position:90% 85%"
+                              aria-label="Open Multi Media · Workshop"><span>Multi Media · Workshop</span></button>
+                         <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Finals" data-im="--p2"
+                              data-pos="100% 70%" style="background-image:var(--p2);background-position:100% 70%"
+                              aria-label="Open Multi Media · Finals"><span>Multi Media · Finals</span></button>
+                         <button class="ph tilt" data-k="multimedia" data-title="Multi Media · Showcase" data-im="--p1"
+                              data-pos="82% 100%" style="background-image:var(--p1);background-position:82% 100%"
+                              aria-label="Open Multi Media · Showcase"><span>Multi Media · Showcase</span></button>
 
-  <!-- Real photos from /api/gallery. FILLED BY main.js -->
-  <div class="grid" id="gal-real" hidden></div>
-  <div class="pager" id="gal-pager" hidden>
-   <button class="chip" id="pg-prev" data-pg="-1">Previous</button>
-   <span id="pg-label" aria-live="polite">Page 1 of 1</span>
-   <button class="chip" id="pg-next" data-pg="1">Next</button>
-  </div>
- </div>
-</div>
+                         <button class="ph tilt" data-k="management" data-title="Management · Opening day"
+                              data-im="--p1" data-pos="50% 0%"
+                              style="background-image:var(--p1);background-position:50% 0%"
+                              aria-label="Open Management · Opening day"><span>Management · Opening day</span></button>
+                         <button class="ph tilt" data-k="management" data-title="Management · Workshop" data-im="--p2"
+                              data-pos="50% 40%" style="background-image:var(--p2);background-position:50% 40%"
+                              aria-label="Open Management · Workshop"><span>Management · Workshop</span></button>
+                         <button class="ph tilt" data-k="management" data-title="Management · Finals" data-im="--p1"
+                              data-pos="60% 60%" style="background-image:var(--p1);background-position:60% 60%"
+                              aria-label="Open Management · Finals"><span>Management · Finals</span></button>
+                         <button class="ph tilt" data-k="management" data-title="Management · Showcase" data-im="--p2"
+                              data-pos="40% 100%" style="background-image:var(--p2);background-position:40% 100%"
+                              aria-label="Open Management · Showcase"><span>Management · Showcase</span></button>
+                    </div>
+                    <p class="sub" id="gal-note" style="margin-top:18px">Sample artwork is shown until admins upload
+                         real photos.</p>
 
-<!-- =========================== ANNOUNCEMENTS =========================== -->
-<div class="page" data-page="announcements">
- <div class="wrap top">
-  <h2>Announcements</h2>
-  <p class="sub">Published by the club admins.</p>
-  <div id="ann-list"><p>Nothing published yet.</p></div><!-- FILLED BY main.js -->
- </div>
-</div>
+                    <!-- Real photos from /api/gallery. FILLED BY main.js -->
+                    <div class="grid" id="gal-real" hidden></div>
+                    <div class="pager" id="gal-pager" hidden>
+                         <button class="chip" id="pg-prev" data-pg="-1">Previous</button>
+                         <span id="pg-label" aria-live="polite">Page 1 of 1</span>
+                         <button class="chip" id="pg-next" data-pg="1">Next</button>
+                    </div>
+               </div>
+          </div>
 
-<!-- ============================ REGISTRATION ============================ -->
-<div class="page" data-page="register">
- <div class="wrap top">
-  <h2>Student Registration</h2>
-  <p class="sub">Details, then email OTP, then your club ID.</p>
+          <!-- =========================== ANNOUNCEMENTS =========================== -->
+          <div class="page" data-page="announcements">
+               <div class="wrap top">
+                    <h2>Announcements</h2>
+                    <p class="sub">Published by the club admins.</p>
+                    <div id="ann-list">
+                         <p>Nothing published yet.</p>
+                    </div><!-- FILLED BY main.js -->
+               </div>
+          </div>
 
-  <div class="form" id="reg">
+          <!-- ============================ REGISTRATION ============================ -->
+          <div class="page" data-page="register">
+               <div class="wrap top">
+                    <h2>Student Registration</h2>
+                    <p class="sub">Details, then email OTP, then your club ID.</p>
 
-   <!-- Step 1: details -->
-   <div id="reg-1">
-    <div class="steps"><b>1 Details</b> &rarr; 2 Verify &rarr; 3 Club ID</div>
-    <p class="note" id="reg-link-note" hidden></p>
-    <p class="err" id="reg-link-err" hidden></p>
+                    <div class="form" id="reg">
 
-    <label for="usn">USN</label><input id="usn" placeholder="1VT22CS001" autocomplete="off">
-    <label for="nm">Full name</label><input id="nm">
-    <label for="em">College email</label><input id="em" type="email">
-    <label for="ph">Phone</label><input id="ph" inputmode="numeric">
-    <label for="br">Branch</label>
-    <select id="br"><option>CSE</option><option>ECE</option><option>AI&amp;DS</option><option>ME</option></select>
-    <label for="yr">Year of joining college</label><input id="yr" type="number" min="2000">
-    <label for="club">Club</label>
-    <select id="club">
-     <option value="tech">Tech</option>
-     <option value="sports">Sports</option>
-     <option value="culture">Culture</option>
-     <option value="multimedia">Multi Media</option>
-    </select>
-    <p class="err" id="reg-err" role="alert"></p>
-    <p><button class="btn" id="go">Send OTP</button></p>
-   </div>
+                         <!-- Step 1: details -->
+                         <div id="reg-1">
+                              <div class="steps"><b>1 Details</b> &rarr; 2 Verify &rarr; 3 Club ID</div>
+                              <p class="note" id="reg-link-note" hidden></p>
+                              <p class="err" id="reg-link-err" hidden></p>
 
-   <!-- Step 2: verify OTP -->
-   <div id="reg-2" hidden>
-    <div class="steps">1 Details &rarr; <b>2 Verify</b> &rarr; 3 Club ID</div>
-    <p>We emailed a 6-digit code to <b id="otp-email"></b>. It expires in 5 minutes.</p>
-    <label for="otp">Enter OTP</label>
-    <input id="otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
-    <p class="note" id="otp-msg" role="alert"></p>
-    <p><button class="btn" id="vf">Verify</button> <button class="btn ghost" id="rs">Resend code</button> <button class="btn ghost" id="bk">Back</button></p>
-   </div>
+                              <label for="usn">USN</label><input id="usn" placeholder="1VT22CS001" autocomplete="off">
+                              <label for="nm">Full name</label><input id="nm">
+                              <label for="em">College email</label><input id="em" type="email">
+                              <label for="ph">Phone</label><input id="ph" inputmode="numeric">
+                              <label for="br">Branch</label>
+                              <select id="br">
+                                   <option>CSE</option>
+                                   <option>ECE</option>
+                                   <option>AI&amp;DS</option>
+                                   <option>ME</option>
+                                   <option>CS&E</option>
+                                   <option>CCT</option>
+                                   <option>CHT</option>
+                                   <option>VLSI</option>
+                                   <option>CCS</option>
+                                   <option>MCA</option>
+                                   <option>MBA</option>
+                                   <option>MBA L&SCM</option>
+                              </select>
+                              <label for="yr">Year of joining college</label><input id="yr" type="number" min="2000">
+                              <label for="club">Club</label>
+                              <select id="club">
+                                   <option value="tech">Tech</option>
+                                   <option value="sports">Sports</option>
+                                   <option value="culture">Culture</option>
+                                   <option value="multimedia">Multi Media</option>
+                                   <option value="management">Management</option>
+                              </select>
+                              <p class="err" id="reg-err" role="alert"></p>
+                              <p><button class="btn" id="go">Send OTP</button></p>
+                         </div>
 
-   <!-- Step 3: done -->
-   <div id="reg-3" hidden>
-    <div class="steps">1 Details &rarr; 2 Verify &rarr; <b>3 Club ID</b></div>
-    <h3>Welcome, <span id="done-name"></span>!</h3>
-    <p>Your <span id="done-club"></span> Club membership ID:</p>
-    <div class="id" id="done-id"></div>
-    <p>Status: <span id="done-status"></span>. A confirmation email has been sent.</p>
-    <button class="btn ghost" id="again">New registration</button>
-   </div>
+                         <!-- Step 2: verify OTP -->
+                         <div id="reg-2" hidden>
+                              <div class="steps">1 Details &rarr; <b>2 Verify</b> &rarr; 3 Club ID</div>
+                              <div class="otp-card">
+                                   <div class="otp-icon" aria-hidden="true">✉️</div>
+                                   <h3 style="margin: 0 0 8px; font-size: 1.4rem;">Verify Your Email</h3>
+                                   <p class="otp-sub">We sent a 6-digit verification code to <b id="otp-email"
+                                             style="color:var(--gold);"></b>.<br><small
+                                             style="color:var(--muted); font-size: 0.85rem;">Check your inbox and spam
+                                             folder. It expires in 5 minutes.</small></p>
+                                   <label for="otp" class="otp-label">Enter 6-Digit Code</label>
+                                   <input id="otp" inputmode="numeric" pattern="[0-9]*" maxlength="6"
+                                        placeholder="------" autocomplete="one-time-code" class="otp-input">
+                                   <p class="note" id="otp-msg" role="alert" style="margin: 12px 0;"></p>
+                                   <div class="otp-actions">
+                                        <button class="btn" id="vf">Verify</button>
+                                        <button class="btn ghost" id="rs">Resend code</button>
+                                        <button class="btn ghost" id="bk">Back</button>
+                                   </div>
+                              </div>
+                         </div>
 
-  </div>
- </div>
-</div>
+                         <!-- Step 3: done -->
+                         <div id="reg-3" hidden>
+                              <div class="steps">1 Details &rarr; 2 Verify &rarr; <b>3 Club ID</b></div>
+                              <h3>Welcome, <span id="done-name"></span>!</h3>
+                              <p>Your <span id="done-club"></span> Club membership ID:</p>
+                              <div class="id" id="done-id"></div>
+                              <p>Status: <span id="done-status"></span>. A confirmation email has been sent.</p>
+                              <button class="btn ghost" id="again">New registration</button>
+                         </div>
 
-<!-- =============================== ADMIN =============================== -->
-<div class="page" data-page="admin">
- <div class="wrap top">
+                    </div>
+               </div>
+          </div>
 
-  <!-- Login view -->
-  <div id="admin-login">
-   <h2>Admin Login</h2>
-   <p class="sub">Restricted area.</p>
-   <div class="form">
-    <label for="au">Username</label><input id="au" autocomplete="username">
-    <label for="ap">Password</label><input id="ap" type="password" autocomplete="current-password">
-    <p class="err" id="al-err" role="alert"></p>
-    <button class="btn" id="al">Sign in</button>
-   </div>
-  </div>
+          <!-- =============================== ADMIN =============================== -->
+          <div class="page" data-page="admin">
+               <div class="wrap top">
 
-  <!-- Dashboard view (shown after login) -->
-  <div id="admin-dash" hidden>
-   <div class="row"><h2>Admin Dashboard</h2><span><span id="adm-user"></span> <button class="btn ghost" data-act="lo">Log out</button></span></div>
-   <p class="err" id="am" role="alert"></p>
+                    <!-- Login view -->
+                    <div id="admin-login">
+                         <h2>Admin Login</h2>
+                         <p class="sub">Restricted area &middot; Sign in with your administrator credentials.</p>
+                         <div class="form">
+                              <label for="au">Username</label><input id="au" autocomplete="username"
+                                   placeholder="VTU_admin">
+                              <label for="ap">Password</label><input id="ap" type="password"
+                                   autocomplete="current-password" placeholder="••••••••">
+                              <p class="err" id="al-err" role="alert"></p>
+                              <button class="btn" id="al">Sign in</button>
+                         </div>
+                    </div>
 
-   <div class="stats">
-    <div class="box"><b id="st-students">0</b>Students</div>
-    <div id="st-clubs" style="display:contents"></div><!-- one box per club, FILLED BY main.js -->
-    <div class="box"><b id="st-news">0</b>Published news</div>
-    <div class="box"><b id="st-photos">0</b>Photos</div>
-   </div>
+                    <!-- Dashboard view (shown after login) -->
+                    <div id="admin-dash" hidden>
+                         <div class="row">
+                              <h2>Admin Dashboard</h2><span><span id="adm-user"></span> <button class="btn ghost"
+                                        data-act="lo">Log out</button></span>
+                         </div>
+                         <div id="am-msg" role="status" class="admin-toast success" hidden></div>
+                         <p class="err" id="am" role="alert"></p>
 
-   <div class="two">
-    <div class="box">
-     <h3>Announcements</h3>
-     <label for="nt">Title</label><input id="nt">
-     <label for="nm2">Message</label><textarea id="nm2" rows="3"></textarea>
-     <label for="nc">Target</label>
-     <select id="nc">
-      <option value="">All clubs</option>
-      <option value="tech">Tech</option><option value="sports">Sports</option><option value="culture">Culture</option><option value="multimedia">Multi Media</option>
-     </select>
-     <p><button class="btn" data-act="np">Publish</button></p>
-     <div id="an-list"></div><!-- FILLED BY main.js -->
-    </div>
+                         <div class="stats">
+                              <div class="box"><b id="st-students">0</b>Students</div>
+                              <div id="st-clubs" style="display:contents"></div>
+                              <!-- one box per club, FILLED BY main.js -->
+                              <div class="box"><b id="st-news">0</b>Published news</div>
+                              <a href="#admin-photos" class="box"
+                                   style="text-decoration:none;display:block;cursor:pointer"
+                                   title="Click to manage &amp; delete photos"><b id="st-photos">0</b>Photos &rarr;</a>
+                         </div>
 
-    <div class="box">
-     <h3>Upload gallery photo</h3>
-     <label for="pf">Image</label><input id="pf" type="file" accept="image/*">
-     <label for="pt">Title</label><input id="pt">
-     <label for="pe">Event name</label><input id="pe">
-     <label for="pc">Club</label>
-     <select id="pc"><option value="tech">Tech</option><option value="sports">Sports</option><option value="culture">Culture</option><option value="multimedia">Multi Media</option></select>
-     <p><button class="btn" data-act="pu">Upload</button></p>
-     <div id="ph-list"></div><!-- FILLED BY main.js -->
-    </div>
-   </div>
+                         <div class="two">
+                              <div class="box">
+                                   <h3>Announcements</h3>
+                                   <label for="nt">Title</label><input id="nt"
+                                        placeholder="e.g. Hackathon Registration Open">
+                                   <label for="nm2">Message</label><textarea id="nm2" rows="3"
+                                        placeholder="Write announcement details..."></textarea>
+                                   <label for="nc">Target</label>
+                                   <select id="nc">
+                                        <option value="">All clubs</option>
+                                        <option value="tech">Tech</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="culture">Culture</option>
+                                        <option value="multimedia">Multi Media</option>
+                                        <option value="management">Management</option>
+                                   </select>
+                                   <p><button class="btn" data-act="np">Publish</button></p>
+                                   <div id="an-list"></div><!-- FILLED BY main.js -->
+                              </div>
 
-   <div class="box" style="margin-top:20px">
-    <h3>Registration links</h3>
-    <div class="row">
-     <select id="lc" style="max-width:180px"><option value="tech">Tech</option><option value="sports">Sports</option><option value="culture">Culture</option><option value="multimedia">Multi Media</option></select>
-     <input id="lt" placeholder="Link title" style="max-width:220px">
-     <input id="le" type="date" style="max-width:170px" aria-label="Expiry date">
-     <button class="btn" data-act="lk">Generate link</button>
-    </div>
-    <div id="lk-list"></div><!-- FILLED BY main.js -->
-   </div>
+                              <div class="box">
+                                   <h3>Upload gallery photo</h3>
+                                   <label for="pf">Image (JPEG, PNG, WebP or GIF, max 5MB)</label>
+                                   <input id="pf" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
 
-   <div class="box" style="margin-top:20px">
-    <div class="row">
-     <h3>Members (<span id="mem-count">0</span>)</h3>
-     <input id="sq" placeholder="Search USN, name, branch or club ID" style="max-width:320px" aria-label="Search members">
-     <a class="btn ghost" id="export" href="#admin">Export CSV</a>
-    </div>
-    <div class="tw"><table>
-     <thead><tr><th>Club ID</th><th>USN</th><th>Name</th><th>Branch</th><th>Club</th><th>Status</th><th>Action</th></tr></thead>
-     <tbody id="tb"><tr><td colspan="7">No members yet.</td></tr></tbody><!-- FILLED BY main.js -->
-    </table></div>
-   </div>
-  </div>
+                                   <div id="pf-preview" class="upload-preview" hidden>
+                                        <img id="pf-preview-img" alt="Preview">
+                                        <div class="upload-preview-details">
+                                             <strong id="pf-preview-name"></strong>
+                                             <small id="pf-preview-size"></small>
+                                        </div>
+                                        <button type="button" class="chip" id="pf-clear">&times; Remove</button>
+                                   </div>
 
- </div>
-</div>
+                                   <label for="pt">Title</label><input id="pt"
+                                        placeholder="e.g. Robowar Champions 2026">
+                                   <label for="pe">Event name</label><input id="pe" placeholder="e.g. Tech-Fest Finale">
+                                   <label for="pc">Club</label>
+                                   <select id="pc">
+                                        <option value="tech">Tech</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="culture">Culture</option>
+                                        <option value="multimedia">Multi Media</option>
+                                        <option value="management">Management</option>
+                                   </select>
+                                   <p><button class="btn" id="btn-upload" data-act="pu">Upload to Gallery</button></p>
+                                   <div
+                                        style="margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+                                        <div>
+                                             <b style="color:var(--gold);display:block">Manage Uploaded Photos</b>
+                                             <span style="font-size:.85rem;color:var(--muted)"><span
+                                                       id="ph-count">0</span> photo(s) in gallery</span>
+                                        </div>
+                                        <a href="admin-photos.html" class="btn ghost" id="go-manage-photos"
+                                             style="font-size:.9rem">Manage &amp; Delete Photos &rarr;</a>
+                                   </div>
+                              </div>
+                         </div>
 
-</main>
+                         <div class="box" style="margin-top:20px">
+                              <h3>Registration links</h3>
+                              <div class="row">
+                                   <select id="lc" style="max-width:180px">
+                                        <option value="tech">Tech</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="culture">Culture</option>
+                                        <option value="multimedia">Multi Media</option>
+                                        <option value="management">Management</option>
+                                   </select>
+                                   <input id="lt" placeholder="Link title" style="max-width:220px">
+                                   <input id="le" type="date" style="max-width:170px" aria-label="Expiry date">
+                                   <button class="btn" data-act="lk">Generate link</button>
+                              </div>
+                              <div id="lk-list"></div><!-- FILLED BY main.js -->
+                         </div>
+                    </div>
 
-<!-- ============================== FOOTER ============================== -->
-<footer>&copy; 2026 VTU Clubs &middot; Club coordinator: clubs@vtu.example &middot; +91 00000 00000</footer>
+               </div>
+          </div>
 
-<!-- Photo preview popup (used by the gallery) -->
-<dialog id="dlg">
- <button class="btn ghost" data-close>Close</button>
- <h3 id="dlg-title"></h3>
- <div class="big" id="dlg-big" role="img" hidden></div>
- <img id="dlg-img" alt="" style="max-width:100%;border-radius:12px" hidden>
- <p class="sub" id="dlg-sub" hidden></p>
-</dialog>
+     </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- Backend URL. Uncomment and set it when the API is on another domain (e.g. API Gateway / ALB / CloudFront).
+     <!-- ============================== FOOTER ============================== -->
+     <footer>&copy; 2026 VTU Clubs &middot; Developer: &middot; <a href="https://my-doc-makeover.vercel.app">Varun
+               Kumar</a></footer>
+
+     <!-- Photo preview popup (used by the gallery) -->
+     <dialog id="dlg">
+          <button class="btn ghost" data-close>Close</button>
+          <h3 id="dlg-title"></h3>
+          <div class="big" id="dlg-big" role="img" hidden></div>
+          <img id="dlg-img" alt="" style="max-width:100%;border-radius:12px" hidden>
+          <p class="sub" id="dlg-sub" hidden></p>
+     </dialog>
+
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+     <!-- Backend URL. Uncomment and set it when the API is on another domain (e.g. API Gateway / ALB / CloudFront).
      Leave it out to keep the old behaviour: same origin on port 8000, otherwise http://127.0.0.1:8000 -->
-<!-- <script>window.API_BASE = "https://api.example.com";</script> -->
-<script src="assets/js/main.js"></script>
+     <!-- <script>window.API_BASE = "https://api.example.com";</script> -->
+     <script src="assets/js/main.js"></script>
 </body>
+
 </html>

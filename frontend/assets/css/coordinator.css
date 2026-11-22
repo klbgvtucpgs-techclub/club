@@ -1,0 +1,19 @@
+/* coordinator.css — extras for coordinator.html. Everything else comes from style.css. */
+#dash-view .filters{margin-top:6px}
+textarea{resize:vertical}
+.list{display:grid;gap:12px;margin-top:10px}
+.item{padding:12px 14px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.04)}
+.item h4{margin:0 0 2px;font:700 1.05rem "Playfair Display",serif;color:var(--gold)}
+.item small{color:var(--muted)}
+.item p{margin:6px 0 10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}
+.thumbs:empty{display:none}
+.thumbs figure{margin:0}
+.thumbs img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block;border:1px solid rgba(245,185,66,.3)}
+.thumbs figcaption{font-size:.8rem;color:var(--muted);margin:4px 0;overflow-wrap:anywhere}
+.chip.sm{min-height:34px;padding:0 12px;font-size:.85rem}
+.empty{color:var(--muted);margin:6px 0}
+.ok{color:#8fe3a3;font-size:.9rem;min-height:1.2em;margin:4px 0 0}
+.rep-meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--muted);font-size:.85rem;margin:4px 0 8px}
+.rep-btns{display:flex;gap:8px;flex-wrap:wrap}
+.rep-btns a{text-decoration:none}

@@ -21,7 +21,7 @@ if not __package__:
 
 from .config import settings
 from .database import Base, engine
-from .routers import admin, announcements, auth, clubs, gallery, memberships
+from .routers import admin, announcements, auth, clubs, coordinator, gallery, memberships
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("vtu")
@@ -48,20 +48,47 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         log.warning("Could not auto-create tables: %s", e)
 
-    # Ensure clubs and default admin exist for immediate plug-and-play delivery
+    # Auto-migrate SQLite schema if needed (add club_id column to admins)
+    try:
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            cols = [row[1] for row in conn.execute(text("PRAGMA table_info(admins)")).fetchall()]
+            if cols and "club_id" not in cols:
+                conn.execute(text("ALTER TABLE admins ADD COLUMN club_id INTEGER REFERENCES clubs(id)"))
+                conn.commit()
+                log.info("Migrated admins table: added club_id column")
+    except Exception as e:
+        log.warning("Admin column check error: %s", e)
+
+    # Ensure clubs, default admin and coordinators exist for immediate plug-and-play delivery
     try:
         from .database import SessionLocal
-        from .models import Admin
+        from .models import Admin, Club
         from .scripts.seed import seed_clubs
         from .security import hash_password
         from sqlalchemy import select
 
         with SessionLocal() as db:
             seed_clubs(db)
-            if not db.scalar(select(Admin.id)):
-                db.add(Admin(username="admin", password_hash=hash_password("admin123456"), role="superadmin"))
+            if not db.scalar(select(Admin.id).where(Admin.username == "VTU_admin")):
+                db.add(Admin(username="VTU_admin", password_hash=hash_password("vtuklbclub"), role="superadmin"))
                 db.commit()
-                log.info("Initialized default superadmin: username='admin', password='admin123456'")
+                log.info("Initialized default superadmin: username='VTU_admin'")
+
+            # Seed club coordinators
+            coord_seeds = [
+                ("tech.coord", "Tech@123", "tech"),
+                ("sports.coord", "Sports@123", "sports"),
+                ("culture.coord", "Culture@123", "culture"),
+                ("multimedia.coord", "Media@123", "multimedia"),
+                ("management.coord", "Mgmt@123", "management"),
+            ]
+            for u, p, slug in coord_seeds:
+                if not db.scalar(select(Admin.id).where(Admin.username == u)):
+                    club = db.scalar(select(Club).where(Club.slug == slug))
+                    if club:
+                        db.add(Admin(username=u, password_hash=hash_password(p), role="coordinator", club_id=club.id))
+            db.commit()
     except Exception as e:
         log.warning("Startup data initialization error: %s", e)
 
@@ -91,12 +118,13 @@ async def security_headers(request, call_next):
     return response
 
 
-for r in (clubs.router, auth.router, memberships.router, announcements.router, gallery.router, admin.router):
+for r in (clubs.router, auth.router, memberships.router, announcements.router, gallery.router, admin.router, coordinator.router):
     app.include_router(r)
 
-if not settings.use_supabase_storage:  # local-disk photos for development
-    Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
-    app.mount("/uploads", StaticFiles(directory=settings.upload_dir), name="uploads")
+# Always mount /uploads so uploaded photos are served directly to the browser
+_uploads_dir = Path(__file__).resolve().parent.parent / "uploads"
+_uploads_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(_uploads_dir)), name="uploads")
 
 
 @app.get("/api/health", tags=["meta"])
@@ -108,5 +136,9 @@ def health():
 # Serve the website from the same server (same origin: no CORS problems, cookies just work).
 # This must stay the LAST route/mount so it never shadows /api, /docs or /uploads.
 FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+if not FRONTEND_DIR.is_dir():
+    FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+if not FRONTEND_DIR.is_dir():
+    FRONTEND_DIR = Path("frontend").resolve()
 if FRONTEND_DIR.is_dir():
     app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")

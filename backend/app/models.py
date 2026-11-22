@@ -42,8 +42,10 @@ class Admin(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(60), unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(255))
-    role: Mapped[str] = mapped_column(String(20), default="admin")  # admin | superadmin
+    role: Mapped[str] = mapped_column(String(20), default="admin")  # admin | superadmin | coordinator
     active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # For coordinators: which club they manage (NULL = all clubs / superadmin)
+    club_id: Mapped[Optional[int]] = mapped_column(ForeignKey("clubs.id"), nullable=True)
     created_at: Mapped[datetime] = mapped_column(TZ, default=utcnow)
 
 

@@ -1,4 +1,5 @@
 import hmac
+import re
 
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -25,6 +26,7 @@ def get_valid_link(db: Session, token: str, club_id: int) -> RegistrationLink:
 
 def check_otp(db: Session, email: str, purpose: str, code: str) -> None:
     """Validates expiry, attempt limit and the code itself. Failed attempts are committed before raising."""
+    code = re.sub(r"[\s-]", "", str(code).strip())
     rec = db.scalar(
         select(EmailOTP)
         .where(EmailOTP.email == email, EmailOTP.purpose == purpose, EmailOTP.consumed_at.is_(None))

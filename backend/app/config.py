@@ -5,6 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(
+            Path(__file__).resolve().parents[2] / ".env",
             Path(__file__).resolve().parent.parent / ".env",
             Path(__file__).resolve().parent / ".env",
             ".env",
@@ -30,12 +31,12 @@ class Settings(BaseSettings):
     admin_session_hours: int = 8
     student_session_days: int = 7
 
-    email_backend: str = "console"  # console | smtp | memory (tests)
-    email_from: str = "VTU Clubs <no-reply@example.com>"
-    smtp_host: str = ""
-    smtp_port: int = 587
-    smtp_user: str = ""
-    smtp_password: str = ""
+    email_backend: str = "smtp"  # smtp | console | memory (tests)
+    email_from: str = "VTU Clubs <i7897ai@gmail.com>"
+    smtp_host: str = "smtp.gmail.com"
+    smtp_port: int = 465
+    smtp_user: str = "i7897ai@gmail.com"
+    smtp_password: str = "qmnv yxqj jsrn hqbx"
 
     captcha_provider: str = "turnstile"
     captcha_secret: str = ""

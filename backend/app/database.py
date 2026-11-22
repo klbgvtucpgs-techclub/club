@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
@@ -11,8 +12,15 @@ class Base(DeclarativeBase):
     pass
 
 
+def _default_sqlite_url() -> str:
+    db_file = Path(__file__).resolve().parent.parent / "dev.db"
+    return f"sqlite:///{db_file.as_posix()}"
+
+
 def _build_url(raw: str) -> str:
     url = raw.strip()
+    if url in ("sqlite:///./dev.db", "sqlite:///dev.db", "sqlite://dev.db"):
+        return _default_sqlite_url()
     if url.startswith("postgres://"):
         url = "postgresql://" + url[len("postgres://"):]
     if url.startswith("postgresql://"):
@@ -21,7 +29,7 @@ def _build_url(raw: str) -> str:
 
 
 def _init_engine():
-    raw_url = settings.database_url or "sqlite:///./dev.db"
+    raw_url = settings.database_url or _default_sqlite_url()
     url = _build_url(raw_url)
 
     if url.startswith("sqlite"):
@@ -43,10 +51,11 @@ def _init_engine():
         return pg_engine
     except Exception as exc:
         logger.warning(
-            "Could not connect to Postgres (%s). Falling back to local SQLite database (sqlite:///./dev.db) for reliable execution.",
+            "Could not connect to Postgres (%s). Falling back to local SQLite database (%s) for reliable execution.",
             exc,
+            _default_sqlite_url(),
         )
-        return create_engine("sqlite:///./dev.db", connect_args={"check_same_thread": False})
+        return create_engine(_default_sqlite_url(), connect_args={"check_same_thread": False})
 
 
 engine = _init_engine()

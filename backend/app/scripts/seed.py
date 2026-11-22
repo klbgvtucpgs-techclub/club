@@ -18,6 +18,8 @@ CLUBS = [
          description="Music, dance, drama and celebrations of Indian heritage.", image_path="assets/images/club-logos/culture.webp"),
     dict(name="Multi Media", slug="multimedia", code_prefix="MM", head_name="Multi Media Head", contact_email="multimedia@vtu.example",
          description="Photography, film-making, design and event coverage.", image_path="assets/images/club-logos/multimedia.webp"),
+    dict(name="Management", slug="management", code_prefix="MGMT", head_name="Management Club Head", contact_email="management@vtu.example",
+         description="Leadership, entrepreneurship, finance, and event management.", image_path="assets/images/Management.png"),
 ]
 
 
