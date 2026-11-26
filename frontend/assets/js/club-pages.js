@@ -40,8 +40,22 @@
 
   var menu = document.getElementById("menu"), nav = document.getElementById("nav");
   if (menu && nav) {
-    menu.addEventListener("click", function () {
-      menu.setAttribute("aria-expanded", nav.classList.toggle("open"));
+    menu.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var isOpen = nav.classList.toggle("open");
+      menu.setAttribute("aria-expanded", String(isOpen));
+    });
+    document.addEventListener("click", function (e) {
+      if (!nav.contains(e.target) && e.target !== menu) {
+        nav.classList.remove("open");
+        menu.setAttribute("aria-expanded", "false");
+      }
+    });
+    nav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        nav.classList.remove("open");
+        menu.setAttribute("aria-expanded", "false");
+      });
     });
   }
 })();
