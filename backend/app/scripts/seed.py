@@ -6,8 +6,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # lets "python app
 
 from sqlalchemy import select
 
-from app.database import SessionLocal
-from app.models import Club
+try:
+    from ..database import SessionLocal
+    from ..models import Club
+except (ImportError, ValueError):
+    from app.database import SessionLocal
+    from app.models import Club
 
 CLUBS = [
     dict(name="Tech", slug="tech", code_prefix="TECH", head_name="Tech Club Head", contact_email="tech@vtu.example",

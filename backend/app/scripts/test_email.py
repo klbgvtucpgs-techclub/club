@@ -7,8 +7,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from app.config import settings  # noqa: E402
-from app.services.email_service import send_email  # noqa: E402
+try:
+    from ..config import settings  # noqa: E402
+    from ..services.email_service import send_email  # noqa: E402
+except (ImportError, ValueError):
+    from app.config import settings  # noqa: E402
+    from app.services.email_service import send_email  # noqa: E402
 
 
 def main() -> None:

@@ -7,9 +7,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # lets "python app
 
 from sqlalchemy import select
 
-from app.database import SessionLocal
-from app.models import Admin
-from app.security import hash_password
+try:
+    from ..database import SessionLocal
+    from ..models import Admin
+    from ..security import hash_password
+except (ImportError, ValueError):
+    from app.database import SessionLocal
+    from app.models import Admin
+    from app.security import hash_password
 
 
 def main() -> None:
