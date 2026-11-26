@@ -7,7 +7,7 @@
   'use strict';
 
   /* ---------- config & helpers ---------- */
-  const API_BASE = window.API_BASE ?? (location.port === '8000' ? '' : 'http://127.0.0.1:8000');
+  const API_BASE = '';
   const CLUBS = ['tech', 'sports', 'culture', 'multimedia', 'management'];
   const PAGES = ['home', 'gallery', 'announcements', 'register', 'admin'];
 
