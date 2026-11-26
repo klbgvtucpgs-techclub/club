@@ -25,6 +25,14 @@ def _build_url(raw: str) -> str:
         url = "postgresql://" + url[len("postgres://"):]
     if url.startswith("postgresql://"):
         url = "postgresql+psycopg://" + url[len("postgresql://"):]
+    if "://" in url and "@" in url:
+        scheme, rest = url.split("://", 1)
+        userinfo, sep, hostpart = rest.rpartition("@")
+        if sep and ":" in userinfo:
+            user, password = userinfo.split(":", 1)
+            for ch, enc in (("@", "%40"), ("#", "%23"), ("?", "%3F"), ("/", "%2F")):
+                password = password.replace(ch, enc)
+            url = f"{scheme}://{user}:{password}@{hostpart}"
     return url
 
 
