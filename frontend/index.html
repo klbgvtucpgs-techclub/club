@@ -289,11 +289,15 @@
                                    <label for="reg-captcha-input">Security Verification</label>
                                    <div class="captcha-row">
                                         <div class="captcha-visual" id="captcha-visual" title="Security Code">
-                                             <canvas id="captcha-canvas" width="160" height="42" aria-label="Captcha security code"></canvas>
+                                             <canvas id="captcha-canvas" width="160" height="42"
+                                                  aria-label="Captcha security code"></canvas>
                                         </div>
-                                        <button type="button" class="chip" id="captcha-refresh" aria-label="Refresh captcha code" title="Get new code">&#x21bb; Refresh</button>
+                                        <button type="button" class="chip" id="captcha-refresh"
+                                             aria-label="Refresh captcha code" title="Get new code">&#x21bb;
+                                             Refresh</button>
                                    </div>
-                                   <input id="reg-captcha-input" placeholder="Enter characters shown above" autocomplete="off" maxlength="8" spellcheck="false">
+                                   <input id="reg-captcha-input" placeholder="Enter characters shown above"
+                                        autocomplete="off" maxlength="8" spellcheck="false">
                               </div>
 
                               <p class="err" id="reg-err" role="alert"></p>

@@ -411,7 +411,9 @@ nav a.on {
 
 /* news ticker: pinned to the bottom of the hero viewport */
 .ticker {
-  position: absolute;
+  position: relative;
+  margin-top: 50px;
+  /* Moves NEWS ticker lower */
   inset: auto 0 0;
   background: rgba(8, 5, 12, .95);
   backdrop-filter: blur(10px);
