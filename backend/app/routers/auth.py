@@ -57,7 +57,7 @@ def register(data: RegisterIn, request: Request, db: Session = Depends(get_db)):
         if existing.usn != data.usn or existing.email != data.email:
             raise HTTPException(409, "This USN or email is already registered with different details")
         if db.scalar(select(Membership.id).where(Membership.student_id == existing.id, Membership.club_id == club.id)):
-            raise HTTPException(409, "You are already a member of this club")
+            raise HTTPException(409, f"USN {data.usn} is already registered as a member of {club.name} Club. You can select another club to join, or check your membership in the Admin portal.")
 
     db.execute(delete(PendingRegistration).where(PendingRegistration.email == data.email))
     pending = PendingRegistration(

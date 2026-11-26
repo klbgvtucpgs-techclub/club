@@ -452,6 +452,103 @@
                               </div>
                               <div id="lk-list"></div><!-- FILLED BY main.js -->
                          </div>
+
+                         <!-- Registered Students & Memberships Section -->
+                         <div class="box" style="margin-top:20px" id="admin-students-box">
+                              <div class="row" style="margin-bottom:14px;flex-wrap:wrap;gap:12px;align-items:center">
+                                   <div>
+                                        <h3 style="margin:0 0 4px">Registered Students &amp; Memberships</h3>
+                                        <small style="color:var(--muted)">Search, view, change status or delete student club registrations in database</small>
+                                   </div>
+                                   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                                        <input id="sq" placeholder="Search USN, name, email..." style="max-width:210px">
+                                        <select id="sc-filter" style="max-width:150px">
+                                             <option value="">All Clubs</option>
+                                             <option value="tech">Tech</option>
+                                             <option value="sports">Sports</option>
+                                             <option value="culture">Culture</option>
+                                             <option value="multimedia">Multi Media</option>
+                                             <option value="management">Management</option>
+                                        </select>
+                                        <button class="chip" id="sq-btn">Search</button>
+                                        <a href="/api/admin/students/export" class="chip" download="vtu_students.csv" style="text-decoration:none">&#x2913; Export CSV</a>
+                                   </div>
+                              </div>
+
+                              <div style="overflow-x:auto">
+                                   <table class="tbl" style="width:100%;text-align:left;border-collapse:collapse" id="students-tbl">
+                                        <thead>
+                                             <tr style="border-bottom:1px solid rgba(245,185,66,.3);color:var(--gold);font-size:.9rem">
+                                                  <th style="padding:10px 8px">Membership ID</th>
+                                                  <th style="padding:10px 8px">USN</th>
+                                                  <th style="padding:10px 8px">Full Name</th>
+                                                  <th style="padding:10px 8px">Email &amp; Phone</th>
+                                                  <th style="padding:10px 8px">Branch / Yr</th>
+                                                  <th style="padding:10px 8px">Club</th>
+                                                  <th style="padding:10px 8px">Status</th>
+                                                  <th style="padding:10px 8px">Actions</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody id="member-rows">
+                                             <!-- FILLED BY main.js from /api/admin/students -->
+                                        </tbody>
+                                   </table>
+                              </div>
+                              <div class="pager" id="students-pager" style="margin-top:14px;display:flex;justify-content:space-between;align-items:center">
+                                   <button class="chip" id="st-prev">&larr; Previous</button>
+                                   <span id="st-pg-label" style="font-size:.9rem;color:var(--muted)">Page 1 of 1</span>
+                                   <button class="chip" id="st-next">Next &rarr;</button>
+                              </div>
+                         </div>
+
+                         <!-- Coordinators & Admins Management Section -->
+                         <div class="box" style="margin-top:20px" id="admin-coords-box">
+                              <div class="row" style="margin-bottom:14px">
+                                   <div>
+                                        <h3 style="margin:0 0 4px">Coordinators &amp; Admin Accounts</h3>
+                                        <small style="color:var(--muted)">Create and manage club coordinator and administrator logins</small>
+                                   </div>
+                              </div>
+
+                              <div style="background:rgba(255,255,255,.03);border:1px solid rgba(245,185,66,.25);border-radius:12px;padding:16px;margin-bottom:18px">
+                                   <h4 style="margin:0 0 10px;color:var(--gold)">Create New Coordinator / Admin Login</h4>
+                                   <div class="row" style="gap:10px;flex-wrap:wrap">
+                                        <input id="nc-user" placeholder="Username (e.g. tech.lead)" style="max-width:180px">
+                                        <input id="nc-pass" type="password" placeholder="Password (min 6 chars)" style="max-width:180px">
+                                        <select id="nc-role" style="max-width:150px">
+                                             <option value="coordinator">Coordinator</option>
+                                             <option value="admin">Admin</option>
+                                             <option value="superadmin">Superadmin</option>
+                                        </select>
+                                        <select id="nc-club" style="max-width:150px">
+                                             <option value="">General (No Club)</option>
+                                             <option value="tech">Tech</option>
+                                             <option value="sports">Sports</option>
+                                             <option value="culture">Culture</option>
+                                             <option value="multimedia">Multi Media</option>
+                                             <option value="management">Management</option>
+                                        </select>
+                                        <button class="btn" id="btn-create-admin" data-act="ca">Create Account</button>
+                                   </div>
+                              </div>
+
+                              <div style="overflow-x:auto">
+                                   <table class="tbl" style="width:100%;text-align:left;border-collapse:collapse">
+                                        <thead>
+                                             <tr style="border-bottom:1px solid rgba(245,185,66,.3);color:var(--gold);font-size:.9rem">
+                                                  <th style="padding:10px 8px">ID</th>
+                                                  <th style="padding:10px 8px">Username</th>
+                                                  <th style="padding:10px 8px">Role</th>
+                                                  <th style="padding:10px 8px">Assigned Club</th>
+                                                  <th style="padding:10px 8px">Actions</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody id="coord-rows">
+                                             <!-- FILLED BY main.js from /api/admin/admins -->
+                                        </tbody>
+                                   </table>
+                              </div>
+                         </div>
                     </div>
 
                </div>

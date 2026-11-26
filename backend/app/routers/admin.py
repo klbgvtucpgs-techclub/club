@@ -69,15 +69,59 @@ def admin_me(request: Request, admin: Admin = Depends(require_admin)):
     return {"username": admin.username, "role": admin.role, "csrf_token": request.cookies.get(CSRF_COOKIE, "")}
 
 
+@router.get("/admins")
+def list_admins(me: Admin = Depends(require_admin), db: Session = Depends(get_db)):
+    """List all coordinators and admins."""
+    rows = db.execute(
+        select(Admin.id, Admin.username, Admin.role, Admin.active, Admin.club_id, Club.name, Club.slug)
+        .outerjoin(Club, Admin.club_id == Club.id)
+        .order_by(Admin.id.asc())
+    ).all()
+    return [
+        {
+            "id": r[0],
+            "username": r[1],
+            "role": r[2],
+            "active": r[3],
+            "club_id": r[4],
+            "club_name": r[5] or "General / Superadmin",
+            "club_slug": r[6] or ""
+        }
+        for r in rows
+    ]
+
+
 @router.post("/admins", status_code=201)
-def create_admin(data: AdminCreateIn, request: Request, me: Admin = Depends(require_superadmin), db: Session = Depends(get_db)):
+def create_admin(data: AdminCreateIn, request: Request, me: Admin = Depends(require_admin), db: Session = Depends(get_db)):
+    if data.role in ("superadmin", "admin") and me.role != "superadmin":
+        raise HTTPException(403, "Only superadmin can create admin/superadmin accounts")
     if db.scalar(select(Admin.id).where(Admin.username == data.username)):
         raise HTTPException(409, "Username already exists")
-    admin = Admin(username=data.username, password_hash=hash_password(data.password), role=data.role)
+    club_id = None
+    if data.club_slug:
+        club = db.scalar(select(Club).where(Club.slug == data.club_slug))
+        if club:
+            club_id = club.id
+    admin = Admin(username=data.username, password_hash=hash_password(data.password), role=data.role, club_id=club_id)
     db.add(admin)
     audit(db, me, request, "admin.create", data.username, f"role={data.role}")
     db.commit()
-    return {"id": admin.id, "username": admin.username, "role": admin.role}
+    return {"id": admin.id, "username": admin.username, "role": admin.role, "club_id": admin.club_id}
+
+
+@router.delete("/admins/{admin_id}", response_model=MessageOut)
+def delete_admin(admin_id: int, request: Request, me: Admin = Depends(require_superadmin), db: Session = Depends(get_db)):
+    """Delete an admin or coordinator."""
+    if me.id == admin_id:
+        raise HTTPException(400, "Cannot delete your own account")
+    target = db.get(Admin, admin_id)
+    if not target:
+        raise HTTPException(404, "Admin not found")
+    name = target.username
+    db.delete(target)
+    audit(db, me, request, "admin.delete", name)
+    db.commit()
+    return MessageOut(message=f"Account {name} deleted successfully")
 
 
 @router.get("/audit-logs")

@@ -448,7 +448,24 @@
   $('#again').onclick = () => { S = {}; PEND = null; step1(); };
 
   /* ---------- admin (every call is checked by the server) ---------- */
-  const memberRows = l => l.map(r => `<tr><td>${esc(r.membership_code)}</td><td>${esc(r.usn)}</td><td>${esc(r.full_name)}</td><td>${esc(r.branch)}</td><td>${esc(r.club_name)}</td><td><select data-ms="${r.membership_id}" aria-label="Status">${['active', 'pending', 'suspended'].map(s => `<option ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td><td><button class="chip danger" data-act="md" data-id="${r.membership_id}">Delete</button></td></tr>`).join('') || '<tr><td colspan="7">No members yet.</td></tr>';
+  const memberRows = l => (l || []).map(r => `<tr>
+    <td style="padding:10px 8px"><strong style="color:var(--gold);font-family:monospace">${esc(r.membership_code)}</strong></td>
+    <td style="padding:10px 8px"><code>${esc(r.usn)}</code></td>
+    <td style="padding:10px 8px"><strong>${esc(r.full_name)}</strong></td>
+    <td style="padding:10px 8px">${esc(r.email)}<br><small style="color:var(--muted)">${esc(r.phone)}</small></td>
+    <td style="padding:10px 8px">${esc(r.branch)} / ${esc(r.joining_year)}</td>
+    <td style="padding:10px 8px"><span class="chip" style="font-size:.78rem">${esc(r.club_name)}</span></td>
+    <td style="padding:10px 8px"><select data-ms="${r.membership_id}" aria-label="Status">${['active', 'pending', 'suspended'].map(s => `<option value="${s}" ${r.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
+    <td style="padding:10px 8px"><button class="chip danger" data-act="md" data-id="${r.membership_id}">Delete</button></td>
+  </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">No registered students found in database.</td></tr>';
+
+  const coordRows = l => (l || []).map(r => `<tr>
+    <td style="padding:10px 8px">#${r.id}</td>
+    <td style="padding:10px 8px"><strong style="color:var(--text)">${esc(r.username)}</strong></td>
+    <td style="padding:10px 8px"><span class="chip" style="font-size:.8rem;text-transform:uppercase">${esc(r.role)}</span></td>
+    <td style="padding:10px 8px"><strong style="color:var(--gold)">${esc(r.club_name || 'General')}</strong></td>
+    <td style="padding:10px 8px"><button class="chip danger" data-act="adm-del" data-id="${r.id}" ${admin && admin.username === r.username ? 'disabled title="Cannot delete yourself"' : ''}>Delete</button></td>
+  </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;padding:18px;color:var(--muted)">No coordinator accounts found.</td></tr>';
 
   let PH_ITEMS = [];
 
@@ -500,13 +517,15 @@
       return;
     }
 
-    let D, AN, LK, PH;
+    let D, AN, LK, PH, ST, ADMS;
     try {
-      [D, AN, LK, PH] = await Promise.all([
+      [D, AN, LK, PH, ST, ADMS] = await Promise.all([
         api('/api/admin/dashboard'),
         api('/api/admin/announcements'),
         api('/api/admin/registration-links'),
-        api('/api/gallery?page_size=36')
+        api('/api/gallery?page_size=36'),
+        api('/api/admin/students?page_size=50'),
+        api('/api/admin/admins')
       ]);
     } catch (x) {
       admin = null;
@@ -539,6 +558,19 @@
     if (phCount) phCount.textContent = PH.total ?? PH_ITEMS.length;
 
     $('#lk-list').innerHTML = LK.map(l => `<div class="row"><span><code>${esc(l.url)}</code> <small>(${esc(l.title)})</small></span><span><button class="chip" data-act="lt2" data-id="${l.id}" data-on="${l.active}">${l.active ? 'Disable' : 'Enable'}</button> <button class="chip danger" data-act="ld" data-id="${l.id}">Delete</button></span></div>`).join('') || '<p style="color:var(--muted);margin:8px 0;">No active registration links.</p>';
+
+    const mbRows = $('#member-rows');
+    if (mbRows) mbRows.innerHTML = memberRows(ST ? ST.items : []);
+
+    const stPager = $('#students-pager');
+    if (stPager && ST) {
+      stPager.hidden = (ST.total_pages || 1) <= 1;
+      const lbl = $('#st-pg-label');
+      if (lbl) lbl.textContent = `Page ${ST.page} of ${ST.total_pages || 1} (${ST.total} total)`;
+    }
+
+    const cdRows = $('#coord-rows');
+    if (cdRows) cdRows.innerHTML = coordRows(ADMS || []);
   }
 
   let adminPhFilter = 'all', adminPg = 0;
@@ -604,17 +636,33 @@
   const v = s => $(s).value.trim();
 
   let tm;
+  async function reloadStudents() {
+    const q = ($('#sq') ? $('#sq').value.trim() : '');
+    const club = ($('#sc-filter') ? $('#sc-filter').value : '');
+    try {
+      const res = await api(`/api/admin/students?page_size=50${q ? '&q=' + encodeURIComponent(q) : ''}${club ? '&club=' + encodeURIComponent(club) : ''}`);
+      const tb = $('#member-rows');
+      if (tb) tb.innerHTML = memberRows(res.items);
+      const stPager = $('#students-pager');
+      if (stPager) {
+        stPager.hidden = (res.total_pages || 1) <= 1;
+        const lbl = $('#st-pg-label');
+        if (lbl) lbl.textContent = `Page ${res.page} of ${res.total_pages || 1} (${res.total} total)`;
+      }
+    } catch (e) { }
+  }
+
   const sq = $('#sq');
   if (sq) {
-    sq.oninput = e => {
-      clearTimeout(tm);
-      tm = setTimeout(async () => {
-        const tb = $('#tb');
-        if (tb) {
-          try { tb.innerHTML = memberRows((await api('/api/admin/students?page_size=100&q=' + encodeURIComponent(e.target.value))).items); } catch (x) { }
-        }
-      }, 300);
-    };
+    sq.oninput = () => { clearTimeout(tm); tm = setTimeout(reloadStudents, 300); };
+  }
+  const scFilter = $('#sc-filter');
+  if (scFilter) {
+    scFilter.onchange = reloadStudents;
+  }
+  const sqBtn = $('#sq-btn');
+  if (sqBtn) {
+    sqBtn.onclick = reloadStudents;
   }
 
   dash.addEventListener('change', e => {
@@ -725,6 +773,26 @@
     }
     if (act === 'md') {
       if (confirm('Delete this club member?')) run(() => api('/api/admin/memberships/' + id, { m: 'DELETE' }), 'Member removed.');
+      return;
+    }
+    if (act === 'ca') {
+      const u = v('#nc-user'), p = v('#nc-pass'), role = $('#nc-role').value, club_slug = $('#nc-club').value || null;
+      if (!u || !p) {
+        $('#am').hidden = false; $('#am').textContent = 'Please enter username and password.'; return;
+      }
+      if (p.length < 6) {
+        $('#am').hidden = false; $('#am').textContent = 'Password must be at least 6 characters.'; return;
+      }
+      run(async () => {
+        await api('/api/admin/admins', { m: 'POST', body: { username: u, password: p, role: role, club_slug: club_slug } });
+        $('#nc-user').value = ''; $('#nc-pass').value = '';
+      }, `Account "${u}" created successfully.`);
+      return;
+    }
+    if (act === 'adm-del') {
+      if (confirm('Delete this account?')) {
+        run(() => api('/api/admin/admins/' + id, { m: 'DELETE' }), 'Account deleted successfully.');
+      }
       return;
     }
   });

@@ -179,8 +179,9 @@ class AdminLoginIn(BaseModel):
 
 class AdminCreateIn(BaseModel):
     username: str = Field(min_length=3, max_length=60, pattern=r"^[A-Za-z0-9_.-]+$")
-    password: str = Field(min_length=10, max_length=72)
-    role: Literal["admin", "superadmin"] = "admin"
+    password: str = Field(min_length=6, max_length=72)
+    role: Literal["admin", "superadmin", "coordinator"] = "coordinator"
+    club_slug: Optional[str] = Field(default=None, max_length=40)
 
 
 class AnnouncementCreate(BaseModel):
