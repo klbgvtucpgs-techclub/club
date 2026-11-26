@@ -42,32 +42,33 @@ async def lifespan(app: FastAPI):
         if not settings.captcha_secret:
             log.warning("CAPTCHA_SECRET is empty: verify-otp is not protected by a captcha")
 
-    # Ensure tables exist
-    try:
-        Base.metadata.create_all(engine)
-    except Exception as e:
-        log.warning("Could not auto-create tables: %s", e)
+    # Only auto-create/migrate tables for local SQLite (dev/test).
+    # Supabase Postgres tables are managed directly via schema.sql / reset_and_rebuild.sql.
+    if engine.dialect.name == "sqlite":
+        try:
+            Base.metadata.create_all(engine)
+        except Exception as e:
+            log.warning("Could not auto-create tables: %s", e)
 
-    # Auto-migrate schema if needed (add club_id column to admins across SQLite & Postgres)
-    try:
-        from sqlalchemy import inspect, text
-        insp = inspect(engine)
-        if "admins" in insp.get_table_names():
-            cols = [c["name"] for c in insp.get_columns("admins")]
-            if "club_id" not in cols:
-                with engine.begin() as conn:
-                    conn.execute(text("ALTER TABLE admins ADD COLUMN club_id INTEGER REFERENCES clubs(id)"))
-                log.info("Migrated admins table: added club_id column")
-    except Exception as e:
-        log.warning("Admin column check error: %s", e)
+        try:
+            from sqlalchemy import inspect, text
+            insp = inspect(engine)
+            if "admins" in insp.get_table_names():
+                cols = [c["name"] for c in insp.get_columns("admins")]
+                if "club_id" not in cols:
+                    with engine.begin() as conn:
+                        conn.execute(text("ALTER TABLE admins ADD COLUMN club_id INTEGER REFERENCES clubs(id)"))
+                    log.info("Migrated admins table: added club_id column")
+        except Exception as e:
+            log.warning("Admin column check error: %s", e)
 
-    # Ensure clubs, default admin and coordinators exist for immediate plug-and-play delivery
+    # Initialize default clubs, admin, and coordinators and verify data retrieval
     try:
         from .database import SessionLocal
-        from .models import Admin, Club
+        from .models import Admin, Club, Membership, Student
         from .scripts.seed import seed_clubs
         from .security import hash_password
-        from sqlalchemy import select
+        from sqlalchemy import func, select
 
         with SessionLocal() as db:
             seed_clubs(db)
@@ -90,6 +91,15 @@ async def lifespan(app: FastAPI):
                     if club:
                         db.add(Admin(username=u, password_hash=hash_password(p), role="coordinator", club_id=club.id))
             db.commit()
+
+            club_cnt = db.scalar(select(func.count(Club.id)))
+            admin_cnt = db.scalar(select(func.count(Admin.id)))
+            student_cnt = db.scalar(select(func.count(Student.id)))
+            member_cnt = db.scalar(select(func.count(Membership.id)))
+            log.info(
+                "Database connected (%s): clubs=%d, admins=%d, students=%d, memberships=%d",
+                engine.dialect.name, club_cnt, admin_cnt, student_cnt, member_cnt,
+            )
     except Exception as e:
         log.warning("Startup data initialization error: %s", e)
 
