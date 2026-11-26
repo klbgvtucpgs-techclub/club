@@ -8,6 +8,8 @@ class Settings(BaseSettings):
             Path(__file__).resolve().parents[2] / ".env",
             Path(__file__).resolve().parent.parent / ".env",
             Path(__file__).resolve().parent / ".env",
+            Path(__file__).resolve().parent.parent / ".env.example",
+            Path(__file__).resolve().parents[2] / ".env.example",
             ".env",
         ),
         env_file_encoding="utf-8",
@@ -32,11 +34,11 @@ class Settings(BaseSettings):
     student_session_days: int = 7
 
     email_backend: str = "smtp"  # smtp | console | memory (tests)
-    email_from: str = "VTU Clubs <i7897ai@gmail.com>"
+    email_from: str = "VTU Clubs <klbgvtucpgs@gmail.com>"
     smtp_host: str = "smtp.gmail.com"
     smtp_port: int = 465
-    smtp_user: str = "i7897ai@gmail.com"
-    smtp_password: str = "qmnv yxqj jsrn hqbx"
+    smtp_user: str = "klbgvtucpgs@gmail.com"
+    smtp_password: str = "bbym qhij kjrq gfno"
 
     captcha_provider: str = "turnstile"
     captcha_secret: str = ""

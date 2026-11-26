@@ -123,7 +123,8 @@ def send_otp(data: SendOtpIn, background: BackgroundTasks, db: Session = Depends
 def verify_otp(data: VerifyOtpIn, request: Request, response: Response, background: BackgroundTasks,
                db: Session = Depends(get_db)):
     """Step 3: captcha + OTP check, then create the verified student and the unique club ID."""
-    verify_captcha(data.captcha_token, client_ip(request))
+    if data.captcha_token:
+        verify_captcha(data.captcha_token, client_ip(request))
     pending = db.get(PendingRegistration, data.pending_id)
     if not pending or aware(pending.expires_at) < utcnow():
         raise HTTPException(404, "Registration session expired. Please register again.")

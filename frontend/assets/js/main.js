@@ -397,7 +397,14 @@
     vfBtn.disabled = true;
     vfBtn.textContent = 'Verifying...';
     try {
-      const res = await api('/api/auth/verify-otp', { m: 'POST', body: { pending_id: PEND, otp: raw } });
+      const res = await api('/api/auth/verify-otp', {
+        m: 'POST',
+        body: {
+          pending_id: PEND,
+          otp: raw,
+          captcha_token: captchaData.token || null
+        }
+      });
       if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
       step3(res);
     } catch (x) {
