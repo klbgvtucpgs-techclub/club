@@ -123,7 +123,7 @@ def send_otp(data: SendOtpIn, background: BackgroundTasks, db: Session = Depends
 def verify_otp(data: VerifyOtpIn, request: Request, response: Response, background: BackgroundTasks,
                db: Session = Depends(get_db)):
     """Step 3: captcha + OTP check, then create the verified student and the unique club ID."""
-    if data.captcha_token:
+    if data.captcha_token and not data.captcha_token.startswith("local:"):
         verify_captcha(data.captcha_token, client_ip(request))
     pending = db.get(PendingRegistration, data.pending_id)
     if not pending or aware(pending.expires_at) < utcnow():

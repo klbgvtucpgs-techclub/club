@@ -8,8 +8,6 @@ class Settings(BaseSettings):
             Path(__file__).resolve().parents[2] / ".env",
             Path(__file__).resolve().parent.parent / ".env",
             Path(__file__).resolve().parent / ".env",
-            Path(__file__).resolve().parent.parent / ".env.example",
-            Path(__file__).resolve().parents[2] / ".env.example",
             ".env",
         ),
         env_file_encoding="utf-8",

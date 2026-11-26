@@ -394,6 +394,8 @@ nav a.on {
   transform: rotateY(calc(var(--i)*72deg)) translateZ(var(--rz));
   transition: box-shadow .3s, border-color .3s;
   touch-action: manipulation;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .face:hover {

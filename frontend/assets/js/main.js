@@ -402,7 +402,7 @@
         body: {
           pending_id: PEND,
           otp: raw,
-          captcha_token: captchaData.token || null
+          captcha_token: (captchaData.token && !captchaData.token.startsWith('local:')) ? captchaData.token : null
         }
       });
       if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
@@ -445,7 +445,7 @@
     $('#done-id').textContent = m.membership_code;
     $('#done-status').textContent = m.status;
   }
-  $('#again').onclick = () => { S = {}; PEND = null; step1(); };
+  $('#again').onclick = () => { S = {}; PEND = null; step1({ reloadCaptcha: true }); };
 
   /* ---------- admin (every call is checked by the server) ---------- */
   const memberRows = l => (l || []).map(r => `<tr>
@@ -562,15 +562,24 @@
     const mbRows = $('#member-rows');
     if (mbRows) mbRows.innerHTML = memberRows(ST ? ST.items : []);
 
-    const stPager = $('#students-pager');
-    if (stPager && ST) {
-      stPager.hidden = (ST.total_pages || 1) <= 1;
-      const lbl = $('#st-pg-label');
-      if (lbl) lbl.textContent = `Page ${ST.page} of ${ST.total_pages || 1} (${ST.total} total)`;
-    }
+    updateStudentPager(ST);
 
     const cdRows = $('#coord-rows');
     if (cdRows) cdRows.innerHTML = coordRows(ADMS || []);
+  }
+
+  let stPage = 1;
+  function updateStudentPager(res) {
+    const stPager = $('#students-pager');
+    if (!stPager || !res) return;
+    const totalPages = Math.max(1, Math.ceil((res.total || 0) / (res.page_size || 50)));
+    stPage = res.page || 1;
+    stPager.hidden = totalPages <= 1;
+    const lbl = $('#st-pg-label');
+    if (lbl) lbl.textContent = `Page ${stPage} of ${totalPages} (${res.total || 0} total)`;
+    const prev = $('#st-prev'), next = $('#st-next');
+    if (prev) prev.disabled = stPage <= 1;
+    if (next) next.disabled = stPage >= totalPages;
   }
 
   let adminPhFilter = 'all', adminPg = 0;
@@ -636,33 +645,36 @@
   const v = s => $(s).value.trim();
 
   let tm;
-  async function reloadStudents() {
+  async function reloadStudents(pageNum = stPage) {
     const q = ($('#sq') ? $('#sq').value.trim() : '');
     const club = ($('#sc-filter') ? $('#sc-filter').value : '');
     try {
-      const res = await api(`/api/admin/students?page_size=50${q ? '&q=' + encodeURIComponent(q) : ''}${club ? '&club=' + encodeURIComponent(club) : ''}`);
+      const res = await api(`/api/admin/students?page=${Math.max(1, pageNum)}&page_size=50${q ? '&q=' + encodeURIComponent(q) : ''}${club ? '&club=' + encodeURIComponent(club) : ''}`);
       const tb = $('#member-rows');
       if (tb) tb.innerHTML = memberRows(res.items);
-      const stPager = $('#students-pager');
-      if (stPager) {
-        stPager.hidden = (res.total_pages || 1) <= 1;
-        const lbl = $('#st-pg-label');
-        if (lbl) lbl.textContent = `Page ${res.page} of ${res.total_pages || 1} (${res.total} total)`;
-      }
+      updateStudentPager(res);
     } catch (e) { }
   }
 
   const sq = $('#sq');
   if (sq) {
-    sq.oninput = () => { clearTimeout(tm); tm = setTimeout(reloadStudents, 300); };
+    sq.oninput = () => { clearTimeout(tm); tm = setTimeout(() => reloadStudents(1), 300); };
   }
   const scFilter = $('#sc-filter');
   if (scFilter) {
-    scFilter.onchange = reloadStudents;
+    scFilter.onchange = () => reloadStudents(1);
   }
   const sqBtn = $('#sq-btn');
   if (sqBtn) {
-    sqBtn.onclick = reloadStudents;
+    sqBtn.onclick = () => reloadStudents(1);
+  }
+  const stPrev = $('#st-prev');
+  if (stPrev) {
+    stPrev.onclick = () => { if (stPage > 1) reloadStudents(stPage - 1); };
+  }
+  const stNext = $('#st-next');
+  if (stNext) {
+    stNext.onclick = () => reloadStudents(stPage + 1);
   }
 
   dash.addEventListener('change', e => {

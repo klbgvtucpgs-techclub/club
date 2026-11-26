@@ -5,7 +5,7 @@ from datetime import timedelta
 from typing import Optional
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Request, Response, UploadFile
-from sqlalchemy import func, or_, select
+from sqlalchemy import func, or_, select, update
 from sqlalchemy.orm import Session
 
 from ..config import settings
@@ -118,6 +118,10 @@ def delete_admin(admin_id: int, request: Request, me: Admin = Depends(require_su
     if not target:
         raise HTTPException(404, "Admin not found")
     name = target.username
+    db.execute(update(AuditLog).where(AuditLog.admin_id == admin_id).values(admin_id=None))
+    db.execute(update(Announcement).where(Announcement.created_by == admin_id).values(created_by=me.id))
+    db.execute(update(Photo).where(Photo.uploaded_by == admin_id).values(uploaded_by=me.id))
+    db.execute(update(RegistrationLink).where(RegistrationLink.created_by == admin_id).values(created_by=me.id))
     db.delete(target)
     audit(db, me, request, "admin.delete", name)
     db.commit()

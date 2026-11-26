@@ -48,14 +48,15 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         log.warning("Could not auto-create tables: %s", e)
 
-    # Auto-migrate SQLite schema if needed (add club_id column to admins)
+    # Auto-migrate schema if needed (add club_id column to admins across SQLite & Postgres)
     try:
-        from sqlalchemy import text
-        with engine.connect() as conn:
-            cols = [row[1] for row in conn.execute(text("PRAGMA table_info(admins)")).fetchall()]
-            if cols and "club_id" not in cols:
-                conn.execute(text("ALTER TABLE admins ADD COLUMN club_id INTEGER REFERENCES clubs(id)"))
-                conn.commit()
+        from sqlalchemy import inspect, text
+        insp = inspect(engine)
+        if "admins" in insp.get_table_names():
+            cols = [c["name"] for c in insp.get_columns("admins")]
+            if "club_id" not in cols:
+                with engine.begin() as conn:
+                    conn.execute(text("ALTER TABLE admins ADD COLUMN club_id INTEGER REFERENCES clubs(id)"))
                 log.info("Migrated admins table: added club_id column")
     except Exception as e:
         log.warning("Admin column check error: %s", e)

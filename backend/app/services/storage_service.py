@@ -47,6 +47,19 @@ def _object_url(path: str) -> str:
     return f"{settings.supabase_url.rstrip('/')}/storage/v1/object/{settings.supabase_bucket}/{path}"
 
 
+def _ensure_bucket() -> None:
+    """Create the Supabase storage bucket as public if it does not exist yet."""
+    url = f"{settings.supabase_url.rstrip('/')}/storage/v1/bucket"
+    payload = {
+        "id": settings.supabase_bucket,
+        "name": settings.supabase_bucket,
+        "public": True,
+        "file_size_limit": settings.max_upload_bytes,
+        "allowed_mime_types": [ct for _, ct in FORMATS.values()],
+    }
+    httpx.post(url, json=payload, headers=_headers(), timeout=10)
+
+
 def save_image(club_slug: str, data: bytes) -> str:
     ext, content_type = validate_image(data)
     path = f"{club_slug}/{uuid.uuid4().hex}.{ext}"
@@ -56,6 +69,10 @@ def save_image(club_slug: str, data: bytes) -> str:
         try:
             r = httpx.post(_object_url(path), content=data, timeout=10,
                            headers={**_headers(), "Content-Type": content_type, "x-upsert": "false"})
+            if r.status_code in (400, 404) and "bucket" in r.text.lower():
+                _ensure_bucket()
+                r = httpx.post(_object_url(path), content=data, timeout=10,
+                               headers={**_headers(), "Content-Type": content_type, "x-upsert": "false"})
             if r.status_code < 400:
                 logger.info("Uploaded photo %s to Supabase storage.", path)
                 return path

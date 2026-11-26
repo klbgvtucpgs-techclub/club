@@ -50,8 +50,20 @@ def _init_engine():
         logger.info("Connected to primary Postgres database successfully.")
         return pg_engine
     except Exception as exc:
+        # Only fall back to SQLite if DATABASE_URL was not explicitly set to Postgres.
+        # If the user has configured a Postgres URL, raise the error so they can fix it.
+        raw_url = (settings.database_url or "").strip()
+        is_explicit_postgres = raw_url.startswith(("postgresql://", "postgres://", "postgresql+psycopg://"))
+        if is_explicit_postgres:
+            logger.error(
+                "FATAL: Could not connect to Postgres (%s). "
+                "Check your DATABASE_URL, Supabase password, and network. "
+                "NOT falling back to SQLite because DATABASE_URL is explicitly set to Postgres.",
+                exc,
+            )
+            raise
         logger.warning(
-            "Could not connect to Postgres (%s). Falling back to local SQLite database (%s) for reliable execution.",
+            "Could not connect to Postgres (%s). Falling back to local SQLite database (%s).",
             exc,
             _default_sqlite_url(),
         )
