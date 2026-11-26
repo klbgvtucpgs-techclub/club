@@ -33,6 +33,8 @@ class RegisterIn(BaseModel):
     joining_year: int
     club_slug: str = Field(max_length=40)
     link_token: Optional[str] = Field(default=None, max_length=40)
+    captcha_token: Optional[str] = Field(default=None, max_length=4096)
+    captcha_code: Optional[str] = Field(default=None, max_length=32)
 
     @field_validator("usn")
     @classmethod
@@ -68,6 +70,11 @@ class RegisterIn(BaseModel):
         if not 2000 <= v <= utcnow().year:
             raise ValueError("Year of joining is out of range")
         return v
+
+
+class CaptchaOut(BaseModel):
+    token: str
+    code: str
 
 
 class PendingOut(BaseModel):

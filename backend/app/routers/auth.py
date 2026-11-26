@@ -9,11 +9,11 @@ from ..config import settings
 from ..database import get_db
 from ..dependencies import STUDENT_COOKIE, clear_cookie, client_ip, rate_limit, require_student, set_cookie
 from ..models import Club, EmailOTP, Membership, PendingRegistration, Student
-from ..schemas import (MembershipOut, MessageOut, PendingOut, RegisterIn, RegistrationResult, SendOtpIn,
+from ..schemas import (CaptchaOut, MembershipOut, MessageOut, PendingOut, RegisterIn, RegistrationResult, SendOtpIn,
                        StudentLoginIn, StudentOut, VerifyOtpIn)
 from ..security import create_token, generate_otp, hash_otp
 from ..services import email_service
-from ..services.captcha_service import verify_captcha
+from ..services.captcha_service import generate_captcha, verify_captcha
 from ..services.membership_service import check_otp, complete_registration, get_valid_link
 from ..utils import aware, utcnow
 
@@ -30,9 +30,16 @@ def _start_student_session(response: Response, student: Student) -> None:
     set_cookie(response, STUDENT_COOKIE, create_token(str(student.id), "student", ttl), int(ttl.total_seconds()))
 
 
+@router.get("/captcha", response_model=CaptchaOut)
+def get_captcha():
+    """Generates a security verification captcha challenge for student registration."""
+    return generate_captcha()
+
+
 @router.post("/register", response_model=PendingOut, dependencies=[Depends(rate_limit("register", 10, 3600))])
-def register(data: RegisterIn, db: Session = Depends(get_db)):
+def register(data: RegisterIn, request: Request, db: Session = Depends(get_db)):
     """Step 1: validate the form and park it. No student or membership exists until the OTP is verified."""
+    verify_captcha(data.captcha_token, client_ip(request), data.captcha_code)
     club = db.scalar(select(Club).where(Club.slug == data.club_slug))
     if not club:
         raise HTTPException(404, "Club not found")

@@ -185,6 +185,72 @@
   const showStep = n => [1, 2, 3].forEach(i => { $('#reg-' + i).hidden = i !== n; });
 
   let resendTimer = null;
+  let captchaData = { token: '', code: '' };
+
+  function renderCaptchaCanvas(code) {
+    const cv = $('#captcha-canvas');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const w = cv.width, h = cv.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Dark canvas background with noise
+    ctx.fillStyle = '#170f24';
+    ctx.fillRect(0, 0, w, h);
+
+    // Background disturbance lines
+    for (let i = 0; i < 4; i++) {
+      ctx.strokeStyle = ['rgba(245,185,66,0.3)', 'rgba(255,122,26,0.25)', 'rgba(255,255,255,0.15)'][i % 3];
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * w, Math.random() * h);
+      ctx.bezierCurveTo(Math.random() * w, Math.random() * h, Math.random() * w, Math.random() * h, Math.random() * w, Math.random() * h);
+      ctx.stroke();
+    }
+
+    // Characters with distortion / rotation
+    const chars = (code || '').split('');
+    const charW = (w - 24) / Math.max(1, chars.length);
+    chars.forEach((c, i) => {
+      ctx.save();
+      const x = 14 + i * charW;
+      const y = h / 2 + 7 + (Math.random() * 4 - 2);
+      const angle = (Math.random() * 22 - 11) * Math.PI / 180;
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.font = 'bold 22px "Source Sans 3", Arial, sans-serif';
+      ctx.fillStyle = ['#ffd27a', '#ffa83a', '#f5b942', '#ffffff'][i % 4];
+      ctx.shadowColor = 'rgba(0,0,0,0.85)';
+      ctx.shadowBlur = 4;
+      ctx.fillText(c, 0, 0);
+      ctx.restore();
+    });
+
+    // Random dots
+    for (let i = 0; i < 24; i++) {
+      ctx.fillStyle = 'rgba(245,185,66,' + (Math.random() * 0.4 + 0.1) + ')';
+      ctx.beginPath();
+      ctx.arc(Math.random() * w, Math.random() * h, Math.random() * 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  async function loadCaptcha() {
+    try {
+      const res = await api('/api/auth/captcha');
+      captchaData = res;
+      renderCaptchaCanvas(res.code);
+      const inp = $('#reg-captcha-input');
+      if (inp) inp.value = '';
+    } catch (e) {
+      const fallbackChars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+      let code = '';
+      for (let i = 0; i < 5; i++) code += fallbackChars[Math.floor(Math.random() * fallbackChars.length)];
+      captchaData = { token: 'local:' + Math.floor(Date.now() / 1000) + ':client:' + Math.random().toString(36).slice(2, 8), code };
+      renderCaptchaCanvas(code);
+    }
+  }
+
   function startResendTimer(seconds = 60) {
     if (resendTimer) clearInterval(resendTimer);
     const rsBtn = $('#rs');
@@ -223,6 +289,15 @@
     const goBtn = $('#go');
     goBtn.disabled = false;
     goBtn.textContent = 'Send OTP';
+
+    const refreshBtn = $('#captcha-refresh');
+    if (refreshBtn && !refreshBtn.dataset.bound) {
+      refreshBtn.dataset.bound = '1';
+      refreshBtn.onclick = () => loadCaptcha();
+    }
+    if (!captchaData.code || e.reloadCaptcha) {
+      loadCaptcha();
+    }
   }
 
   $('#go').onclick = async () => {
@@ -231,17 +306,38 @@
       step1({ form: 'Please fill in all required fields before requesting an OTP.' });
       return;
     }
+    const capInp = $('#reg-captcha-input');
+    const userCaptcha = capInp ? capInp.value.trim() : '';
+    if (!userCaptcha) {
+      step1({ form: 'Please enter the security verification captcha code.' });
+      if (capInp) capInp.focus();
+      return;
+    }
     const goBtn = $('#go');
     goBtn.disabled = true;
     goBtn.textContent = 'Sending OTP...';
     try {
-      const p = await api('/api/auth/register', { m: 'POST', body: { usn: S.usn, full_name: S.nm, email: S.em, phone: S.ph, branch: S.br, joining_year: +S.yr, club_slug: S.club, link_token: LINK || null } });
+      const p = await api('/api/auth/register', {
+        m: 'POST',
+        body: {
+          usn: S.usn,
+          full_name: S.nm,
+          email: S.em,
+          phone: S.ph,
+          branch: S.br,
+          joining_year: +S.yr,
+          club_slug: S.club,
+          link_token: LINK || null,
+          captcha_token: captchaData.token || null,
+          captcha_code: userCaptcha || null
+        }
+      });
       PEND = p.pending_id;
       await api('/api/auth/send-otp', { m: 'POST', body: { purpose: 'register', pending_id: PEND } });
       step2('Verification code sent! Please check your email inbox and spam folder.', true);
       startResendTimer(60);
     } catch (x) {
-      step1({ form: x.message });
+      step1({ form: x.message, reloadCaptcha: true });
     } finally {
       goBtn.disabled = false;
       goBtn.textContent = 'Send OTP';

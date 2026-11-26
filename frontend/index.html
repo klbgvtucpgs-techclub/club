@@ -86,16 +86,11 @@
                          <a class="btn" href="#register">Register now</a> <a class="btn ghost"
                               href="#gallery">Gallery</a>
                     </div>
-               </div>
 
-               <!-- News line at the border bottom end of hero -->
-               <div class="ticker" tabindex="0" role="region" aria-label="Announcements">
-                    <b>NEWS</b>
-                    <div class="track" id="ticker-track">
-                         <span>LAUNCHING ON 23RD NOVEMBER</span>
-                         <span>VTU KALABURAGI STUDENTS CLUB PORTAL</span>
-                         <span>LAUNCHING ON 23RD NOVEMBER</span>
-                         <span>VTU KALABURAGI STUDENTS CLUB PORTAL</span>
+                    <!-- News ticker (bottom of hero) -->
+                    <div class="ticker" tabindex="0" role="region" aria-label="Announcements">
+                         <b>NEWS</b>
+                         <div class="track" id="ticker-track"><span>No announcements yet. Check back soon.</span></div>
                     </div>
                </div>
 
@@ -288,6 +283,19 @@
                                    <option value="multimedia">Multi Media</option>
                                    <option value="management">Management</option>
                               </select>
+
+                              <!-- Security verification captcha box -->
+                              <div class="captcha-box" id="reg-captcha-box">
+                                   <label for="reg-captcha-input">Security Verification</label>
+                                   <div class="captcha-row">
+                                        <div class="captcha-visual" id="captcha-visual" title="Security Code">
+                                             <canvas id="captcha-canvas" width="160" height="42" aria-label="Captcha security code"></canvas>
+                                        </div>
+                                        <button type="button" class="chip" id="captcha-refresh" aria-label="Refresh captcha code" title="Get new code">&#x21bb; Refresh</button>
+                                   </div>
+                                   <input id="reg-captcha-input" placeholder="Enter characters shown above" autocomplete="off" maxlength="8" spellcheck="false">
+                              </div>
+
                               <p class="err" id="reg-err" role="alert"></p>
                               <p><button class="btn" id="go">Send OTP</button></p>
                          </div>
